@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Qubiqx\QcommercePages\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class QcommercePagesCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'qcommerce-pages';
 
     public $description = 'My command';
 
