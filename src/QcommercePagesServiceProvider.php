@@ -2,9 +2,9 @@
 
 namespace Qubiqx\QcommercePages;
 
+use Qubiqx\QcommercePages\Commands\QcommercePagesCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Qubiqx\QcommercePages\Commands\QcommercePagesCommand;
 
 class QcommercePagesServiceProvider extends PackageServiceProvider
 {
