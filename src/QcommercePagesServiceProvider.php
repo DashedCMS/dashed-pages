@@ -2,24 +2,41 @@
 
 namespace Qubiqx\QcommercePages;
 
-use Qubiqx\QcommercePages\Commands\QcommercePagesCommand;
+use Filament\PluginServiceProvider;
+use Qubiqx\QcommercePages\Classes\PageRouteHandler;
+use Qubiqx\QcommercePages\Filament\Resources\PageResource;
+use Qubiqx\QcommercePages\Models\Page;
 use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class QcommercePagesServiceProvider extends PackageServiceProvider
+class QcommercePagesServiceProvider extends PluginServiceProvider
 {
+    public static string $name = 'qcommerce-pages';
+
     public function configurePackage(Package $package): void
     {
-        /*
-         * This class is a Package Service Provider
-         *
-         * More info: https://github.com/spatie/laravel-package-tools
-         */
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+
+        cms()->builder(
+            'routeModels',
+            array_merge(cms()->builder('routeModels'), [
+                'page' => [
+                    'name' => 'Pagina',
+                    'pluralName' => 'Pagina\'s',
+                    'class' => Page::class,
+                    'nameField' => 'name',
+                    'routeHandler' => PageRouteHandler::class,
+                ],
+            ])
+        );
+
         $package
-            ->name('qcommerce-pages')
-            ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_qcommerce-pages_table')
-            ->hasCommand(QcommercePagesCommand::class);
+            ->name('qcommerce-pages');
+    }
+
+    protected function getResources(): array
+    {
+        return array_merge(parent::getResources(), [
+            PageResource::class,
+        ]);
     }
 }
