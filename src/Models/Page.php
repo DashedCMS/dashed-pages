@@ -3,13 +3,13 @@
 namespace Qubiqx\QcommercePages\Models;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
-use Qubiqx\QcommerceCore\Classes\Sites;
-use Spatie\Translatable\HasTranslations;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use Qubiqx\QcommerceCore\Classes\Sites;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Translatable\HasTranslations;
 
 class Page extends Model
 {
