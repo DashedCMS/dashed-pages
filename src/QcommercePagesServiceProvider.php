@@ -16,6 +16,8 @@ class QcommercePagesServiceProvider extends PluginServiceProvider
     {
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
+        cms()->model('Page', Page::class);
+
         cms()->builder(
             'routeModels',
             array_merge(cms()->builder('routeModels'), [
