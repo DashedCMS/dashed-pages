@@ -3,13 +3,13 @@
 namespace Qubiqx\QcommercePages\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use Illuminate\Database\Eloquent\Model;
 use Qubiqx\QcommerceCore\Classes\Sites;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Translatable\HasTranslations;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class Page extends Model
 {
@@ -67,7 +67,7 @@ class Page extends Model
 
     public function scopeThisSite($query, $siteId = null)
     {
-        if (! $siteId) {
+        if (!$siteId) {
             $siteId = Sites::getActive();
         }
 
@@ -76,15 +76,15 @@ class Page extends Model
 
     public function scopePublicShowable($query)
     {
-        $query->thisSite()->where(function ($query) {
-            $query->where('start_date', null);
-        })->orWhere(function ($query) {
-            $query->where('start_date', '<=', Carbon::now());
-        })->where(function ($query) {
-            $query->where('end_date', null);
-        })->orWhere(function ($query) {
-            $query->where('end_date', '>=', Carbon::now());
-        });
+        $query->thisSite()
+            ->where(function ($query) {
+                $query->where('start_date', null)
+                    ->orWhere('start_date', '<=', now()->format('Y-m-d H:i:s'));
+            })->where(function ($query) {
+                $query->where('end_date', null)
+                    ->orWhere('end_date', '>=', now()->format('Y-m-d H:i:s'));
+            });
+        ;
     }
 
     public function scopeSearch($query)
@@ -124,7 +124,7 @@ class Page extends Model
 
     public function getStatusAttribute()
     {
-        if (! $this->start_date && ! $this->end_date) {
+        if (!$this->start_date && !$this->end_date) {
             return 'active';
         } else {
             if ($this->start_date && $this->end_date) {
