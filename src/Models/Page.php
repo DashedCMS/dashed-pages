@@ -3,13 +3,14 @@
 namespace Qubiqx\QcommercePages\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Support\Facades\Cache;
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use Illuminate\Database\Eloquent\Model;
 use Qubiqx\QcommerceCore\Classes\Sites;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Translatable\HasTranslations;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class Page extends Model
 {
@@ -63,6 +64,11 @@ class Page extends Model
         static::updated(function ($page) {
             Cache::tags(['pages', "page-$page->id"])->flush();
         });
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
     }
 
     public function scopeThisSite($query, $siteId = null)
