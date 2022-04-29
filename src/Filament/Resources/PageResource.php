@@ -128,7 +128,8 @@ class PageResource extends Resource
                             ->image(),
 
                         Builder::make('content')
-                            ->blocks(cms()->builder('blocks')),
+                            ->blocks(cms()->builder('blocks'))
+                            ->showBlockLabels(),
                     ]),
             ]);
     }
