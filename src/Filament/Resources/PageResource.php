@@ -4,20 +4,20 @@ namespace Qubiqx\QcommercePages\Filament\Resources;
 
 use Closure;
 use Filament\Forms\Components\BelongsToSelect;
-use Illuminate\Support\Str;
-use Filament\Resources\Form;
-use Filament\Resources\Table;
-use Filament\Resources\Resource;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\Concerns\Translatable;
+use Filament\Resources\Form;
+use Filament\Resources\Resource;
+use Filament\Resources\Table;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Support\Str;
 use Qubiqx\QcommerceCore\Classes\Sites;
 use Qubiqx\QcommercePages\Filament\Resources\PageResource\Pages\CreatePage;
 use Qubiqx\QcommercePages\Filament\Resources\PageResource\Pages\EditPage;
@@ -79,11 +79,11 @@ class PageResource extends Resource
                             ->label('Actief op site')
                             ->options(collect(Sites::getSites())->pluck('name', 'id'))
                             ->hidden(function () {
-                                return !(Sites::getAmountOfSites() > 1);
+                                return ! (Sites::getAmountOfSites() > 1);
                             })
                             ->required(),
                     ])
-                    ->collapsed(fn($livewire) => $livewire instanceof EditPage),
+                    ->collapsed(fn ($livewire) => $livewire instanceof EditPage),
                 Section::make('Content')
                     ->schema([
                         TextInput::make('name')
@@ -100,7 +100,7 @@ class PageResource extends Resource
                             }),
                         TextInput::make('slug')
                             ->label('Slug')
-                            ->unique('qcommerce__pages', 'slug', fn($record) => $record)
+                            ->unique('qcommerce__pages', 'slug', fn ($record) => $record)
                             ->helperText('Laat leeg om automatisch te laten genereren')
                             ->required()
                             ->rules([
@@ -151,11 +151,11 @@ class PageResource extends Resource
                 TextColumn::make('site_id')
                     ->label('Actief op site')
                     ->sortable()
-                    ->hidden(!(Sites::getAmountOfSites() > 1))
+                    ->hidden(! (Sites::getAmountOfSites() > 1))
                     ->searchable(),
                 TextColumn::make('status')
                     ->label('Status')
-                    ->getStateUsing(fn($record) => ucfirst($record->status)),
+                    ->getStateUsing(fn ($record) => ucfirst($record->status)),
             ])
             ->filters([
                 //
