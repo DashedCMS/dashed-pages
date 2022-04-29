@@ -3,6 +3,7 @@
 namespace Qubiqx\QcommercePages\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
@@ -25,6 +26,7 @@ class Page extends Model
         'name',
         'slug',
         'is_home',
+        'parent_page_id',
         'content',
         'site_id',
         'meta_title',
@@ -55,6 +57,10 @@ class Page extends Model
         'content' => 'array',
     ];
 
+    public $with = [
+        'parentPage'
+    ];
+
     protected static function booted()
     {
         static::created(function ($page) {
@@ -71,9 +77,14 @@ class Page extends Model
         return LogOptions::defaults();
     }
 
+    public function parentPage(): BelongsTo
+    {
+        return $this->belongsTo(self::class);
+    }
+
     public function scopeThisSite($query, $siteId = null)
     {
-        if (! $siteId) {
+        if (!$siteId) {
             $siteId = Sites::getActive();
         }
 
@@ -89,8 +100,7 @@ class Page extends Model
             })->where(function ($query) {
                 $query->where('end_date', null)
                     ->orWhere('end_date', '>=', now()->format('Y-m-d H:i:s'));
-            });
-        ;
+            });;
     }
 
     public function scopeSearch($query)
@@ -112,6 +122,8 @@ class Page extends Model
     {
         if ($this->is_home) {
             $url = '/';
+        } elseif ($this->parentPage) {
+            $url = "{$this->parentPage->getUrl()}/{$this->slug}";
         } else {
             $url = $this->slug;
         }
@@ -130,7 +142,7 @@ class Page extends Model
 
     public function getStatusAttribute()
     {
-        if (! $this->start_date && ! $this->end_date) {
+        if (!$this->start_date && !$this->end_date) {
             return 'active';
         } else {
             if ($this->start_date && $this->end_date) {
