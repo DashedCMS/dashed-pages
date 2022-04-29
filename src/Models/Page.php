@@ -3,13 +3,13 @@
 namespace Qubiqx\QcommercePages\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Spatie\Activitylog\LogOptions;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Qubiqx\QcommerceCore\Classes\Sites;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Translatable\HasTranslations;
 
@@ -58,7 +58,7 @@ class Page extends Model
     ];
 
     public $with = [
-        'parentPage'
+        'parentPage',
     ];
 
     protected static function booted()
@@ -84,7 +84,7 @@ class Page extends Model
 
     public function scopeThisSite($query, $siteId = null)
     {
-        if (!$siteId) {
+        if (! $siteId) {
             $siteId = Sites::getActive();
         }
 
@@ -100,7 +100,8 @@ class Page extends Model
             })->where(function ($query) {
                 $query->where('end_date', null)
                     ->orWhere('end_date', '>=', now()->format('Y-m-d H:i:s'));
-            });;
+            });
+        ;
     }
 
     public function scopeSearch($query)
@@ -142,7 +143,7 @@ class Page extends Model
 
     public function getStatusAttribute()
     {
-        if (!$this->start_date && !$this->end_date) {
+        if (! $this->start_date && ! $this->end_date) {
             return 'active';
         } else {
             if ($this->start_date && $this->end_date) {
