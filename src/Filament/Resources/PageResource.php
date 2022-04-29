@@ -74,16 +74,17 @@ class PageResource extends Resource
                             ->label('Dit is de homepagina'),
                         BelongsToSelect::make('parent_page_id')
                             ->relationship('parentPage', 'name')
+                            ->options(fn($record) => Page::where('id', '!=', $record->id ?? 0)->pluck('name', 'id'))
                             ->label('Bovenliggende pagina'),
                         Select::make('site_id')
                             ->label('Actief op site')
                             ->options(collect(Sites::getSites())->pluck('name', 'id'))
                             ->hidden(function () {
-                                return ! (Sites::getAmountOfSites() > 1);
+                                return !(Sites::getAmountOfSites() > 1);
                             })
                             ->required(),
                     ])
-                    ->collapsed(fn ($livewire) => $livewire instanceof EditPage),
+                    ->collapsed(fn($livewire) => $livewire instanceof EditPage),
                 Section::make('Content')
                     ->schema([
                         TextInput::make('name')
@@ -100,7 +101,7 @@ class PageResource extends Resource
                             }),
                         TextInput::make('slug')
                             ->label('Slug')
-                            ->unique('qcommerce__pages', 'slug', fn ($record) => $record)
+                            ->unique('qcommerce__pages', 'slug', fn($record) => $record)
                             ->helperText('Laat leeg om automatisch te laten genereren')
                             ->required()
                             ->rules([
@@ -151,11 +152,11 @@ class PageResource extends Resource
                 TextColumn::make('site_id')
                     ->label('Actief op site')
                     ->sortable()
-                    ->hidden(! (Sites::getAmountOfSites() > 1))
+                    ->hidden(!(Sites::getAmountOfSites() > 1))
                     ->searchable(),
                 TextColumn::make('status')
                     ->label('Status')
-                    ->getStateUsing(fn ($record) => ucfirst($record->status)),
+                    ->getStateUsing(fn($record) => ucfirst($record->status)),
             ])
             ->filters([
                 //
