@@ -11,18 +11,18 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Builder;
-use Filament\Forms\Components\Section;
-use Qubiqx\QcommercePages\Models\Page;
-use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\TextColumn;
-use Qubiqx\QcommerceCore\Classes\Sites;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Concerns\Translatable;
+use Filament\Tables\Columns\TextColumn;
+use Qubiqx\QcommerceCore\Classes\Sites;
+use Qubiqx\QcommercePages\Filament\Resources\PageResource\Pages\CreatePage;
 use Qubiqx\QcommercePages\Filament\Resources\PageResource\Pages\EditPage;
 use Qubiqx\QcommercePages\Filament\Resources\PageResource\Pages\ListPages;
-use Qubiqx\QcommercePages\Filament\Resources\PageResource\Pages\CreatePage;
+use Qubiqx\QcommercePages\Models\Page;
 
 class PageResource extends Resource
 {
