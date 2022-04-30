@@ -4,6 +4,8 @@ namespace Qubiqx\QcommercePages\Classes;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\View;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use Qubiqx\QcommerceCore\Classes\Sites;
 use Qubiqx\QcommercePages\Models\Page;
 
 class PageRouteHandler
@@ -29,6 +31,19 @@ class PageRouteHandler
                 if ($page->meta_image) {
                     seo()->metaData('metaImage', $page->meta_image);
                 }
+
+                $correctLocale = App::getLocale();
+                $alternateUrls = [];
+                foreach (Sites::getLocales() as $locale) {
+                    if ($locale['id'] != $correctLocale) {
+                        LaravelLocalization::setLocale($locale['id']);
+                        App::setLocale($locale['id']);
+                        $alternateUrls[$locale['id']] = $page->getUrl();
+                    }
+                }
+                LaravelLocalization::setLocale($correctLocale);
+                App::setLocale($correctLocale);
+                seo()->metaData('alternateUrls', $alternateUrls);
 
                 View::share('page', $page);
 
