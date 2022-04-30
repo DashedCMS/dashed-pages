@@ -25,11 +25,10 @@ class PageRouteHandler
 
         if ($page) {
             if (View::exists('qcommerce.pages.show')) {
-                SEOTools::setTitle($page->meta_title ?: $page->name);
-                SEOTools::setDescription($page->meta_description);
-                SEOTools::opengraph()->setUrl(url()->current());
+                frontend()->metaData('metaTitle', $page->meta_title ?: $page->name);
+                frontend()->metaData('metaDescription', $page->meta_description);
                 if ($page->meta_image) {
-                    SEOTools::addImages($page->meta_image);
+                    frontend()->metaData('metaImage', $page->meta_image);
                 }
 
                 View::share('page', $page);
