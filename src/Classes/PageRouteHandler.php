@@ -25,10 +25,10 @@ class PageRouteHandler
 
         if ($page) {
             if (View::exists('qcommerce.pages.show')) {
-                frontend()->metaData('metaTitle', $page->meta_title ?: $page->name);
-                frontend()->metaData('metaDescription', $page->meta_description);
+                seo()->metaData('metaTitle', $page->meta_title ?: $page->name);
+                seo()->metaData('metaDescription', $page->meta_description);
                 if ($page->meta_image) {
-                    frontend()->metaData('metaImage', $page->meta_image);
+                    seo()->metaData('metaImage', $page->meta_image);
                 }
 
                 View::share('page', $page);
