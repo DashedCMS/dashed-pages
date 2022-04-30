@@ -2,7 +2,6 @@
 
 namespace Qubiqx\QcommercePages\Classes;
 
-use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\View;
 use Qubiqx\QcommercePages\Models\Page;
