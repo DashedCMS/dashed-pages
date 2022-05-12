@@ -130,7 +130,7 @@ class PageResource extends Resource
 
                         Builder::make('content')
                             ->blocks(cms()->builder('blocks'))
-                            ->showBlockLabels(),
+                            ->withBlockLabels(),
                     ]),
             ]);
     }
