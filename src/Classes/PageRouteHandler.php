@@ -5,8 +5,12 @@ namespace Qubiqx\QcommercePages\Classes;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\View;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use Qubiqx\QcommerceCore\Classes\Locales;
 use Qubiqx\QcommerceCore\Classes\Sites;
+use Qubiqx\QcommerceEcommerceCore\Models\ProductCategory;
 use Qubiqx\QcommercePages\Models\Page;
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
 
 class PageRouteHandler
 {
@@ -55,5 +59,20 @@ class PageRouteHandler
                 return 'pageNotFound';
             }
         }
+    }
+
+    public static function getSitemapUrls(Sitemap $sitemap): Sitemap
+    {
+        foreach (Page::publicShowable()->get() as $page) {
+            foreach (Locales::getLocales() as $locale) {
+                if (in_array($locale['id'], Sites::get()['locales'])) {
+                    Locales::setLocale($locale['id']);
+                    $sitemap
+                        ->add(Url::create($page->getUrl()));
+                }
+            }
+        }
+
+        return $sitemap;
     }
 }
