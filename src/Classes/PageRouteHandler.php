@@ -19,6 +19,9 @@ class PageRouteHandler
             foreach ($slugParts as $slugPart) {
                 $page = Page::publicShowable()->where('slug->' . App::getLocale(), $slugPart)->where('parent_page_id', $parentPageId)->where('is_home', 0)->first();
                 $parentPageId = $page?->id;
+                if(!$page){
+                    return 'pageNotFound';
+                }
             }
         } else {
             $page = Page::publicShowable()->where('is_home', 1)->first();
