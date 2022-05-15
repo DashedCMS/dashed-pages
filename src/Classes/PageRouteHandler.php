@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\View;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Qubiqx\QcommerceCore\Classes\Locales;
 use Qubiqx\QcommerceCore\Classes\Sites;
-use Qubiqx\QcommerceEcommerceCore\Models\ProductCategory;
 use Qubiqx\QcommercePages\Models\Page;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
