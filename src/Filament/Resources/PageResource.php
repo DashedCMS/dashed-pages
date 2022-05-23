@@ -112,7 +112,7 @@ class PageResource extends Resource
                             ->rules([
                                 'nullable',
                                 'min:5',
-                                'max:60',
+                                'max:70',
                             ]),
                         Textarea::make('meta_description')
                             ->label('Meta descriptie')
@@ -120,7 +120,7 @@ class PageResource extends Resource
                             ->rules([
                                 'nullable',
                                 'min:5',
-                                'max:158',
+                                'max:170',
                             ]),
                         FileUpload::make('meta_image')
                             ->directory('qcommerce/pages/meta-images')
