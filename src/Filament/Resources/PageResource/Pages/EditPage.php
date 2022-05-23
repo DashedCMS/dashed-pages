@@ -21,8 +21,8 @@ class EditPage extends EditRecord
         return array_merge(parent::getActions(), [
             ButtonAction::make('view_page')
                 ->label('Bekijk pagina')
-                ->openUrlInNewTab()
-                ->url($this->record->getUrl()),
+                ->url($this->record->getUrl())
+                ->openUrlInNewTab(),
             $this->getActiveFormLocaleSelectAction(),
         ]);
     }
