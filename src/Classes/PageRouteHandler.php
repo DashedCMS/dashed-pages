@@ -32,10 +32,10 @@ class PageRouteHandler
 
         if ($page) {
             if (View::exists('qcommerce.pages.show')) {
-                seo()->metaData('metaTitle', $page->meta_title ?: $page->name);
-                seo()->metaData('metaDescription', $page->meta_description);
-                if ($page->meta_image) {
-                    seo()->metaData('metaImage', $page->meta_image);
+                seo()->metaData('metaTitle', $page->metadata && $page->metadata->title ? $page->metadata->title : $page->name);
+                seo()->metaData('metaDescription', $page->metadata->description ?? '');
+                if ($page->metadata && $page->metadata->image) {
+                    seo()->metaData('metaImage', $page->metadata->image);
                 }
 
                 $correctLocale = App::getLocale();
