@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Qubiqx\QcommerceCore\Classes\Sites;
+use Qubiqx\QcommerceCore\Models\Concerns\HasMetadata;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Translatable\HasTranslations;
@@ -18,6 +19,7 @@ class Page extends Model
     use SoftDeletes;
     use HasTranslations;
     use LogsActivity;
+    use HasMetadata;
 
     protected static $logFillable = true;
 

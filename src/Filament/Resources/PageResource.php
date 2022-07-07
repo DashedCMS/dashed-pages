@@ -5,6 +5,7 @@ namespace Qubiqx\QcommercePages\Filament\Resources;
 use Closure;
 use Filament\Forms\Components\BelongsToSelect;
 use Filament\Forms\Components\Builder;
+use Filament\Forms\Components\Concerns\HasMeta;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
@@ -19,6 +20,7 @@ use Filament\Resources\Table;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\Str;
 use Qubiqx\QcommerceCore\Classes\Sites;
+use Qubiqx\QcommerceCore\Filament\Concerns\HasMetadataTab;
 use Qubiqx\QcommercePages\Filament\Resources\PageResource\Pages\CreatePage;
 use Qubiqx\QcommercePages\Filament\Resources\PageResource\Pages\EditPage;
 use Qubiqx\QcommercePages\Filament\Resources\PageResource\Pages\ListPages;
@@ -27,6 +29,7 @@ use Qubiqx\QcommercePages\Models\Page;
 class PageResource extends Resource
 {
     use Translatable;
+    use HasMetadataTab;
 
     protected static ?string $model = Page::class;
 
@@ -44,8 +47,6 @@ class PageResource extends Resource
             'name',
             'slug',
             'content',
-            'meta_title',
-            'meta_description',
         ];
     }
 
@@ -74,17 +75,17 @@ class PageResource extends Resource
                             ->label('Dit is de homepagina'),
                         BelongsToSelect::make('parent_page_id')
                             ->relationship('parentPage', 'name')
-                            ->options(fn ($record) => Page::where('id', '!=', $record->id ?? 0)->pluck('name', 'id'))
+                            ->options(fn($record) => Page::where('id', '!=', $record->id ?? 0)->pluck('name', 'id'))
                             ->label('Bovenliggende pagina'),
                         Select::make('site_id')
                             ->label('Actief op site')
                             ->options(collect(Sites::getSites())->pluck('name', 'id'))
                             ->hidden(function () {
-                                return ! (Sites::getAmountOfSites() > 1);
+                                return !(Sites::getAmountOfSites() > 1);
                             })
                             ->required(),
                     ])
-                    ->collapsed(fn ($livewire) => $livewire instanceof EditPage),
+                    ->collapsed(fn($livewire) => $livewire instanceof EditPage),
                 Section::make('Content')
                     ->schema([
                         TextInput::make('name')
@@ -101,36 +102,17 @@ class PageResource extends Resource
                             }),
                         TextInput::make('slug')
                             ->label('Slug')
-                            ->unique('qcommerce__pages', 'slug', fn ($record) => $record)
+                            ->unique('qcommerce__pages', 'slug', fn($record) => $record)
                             ->helperText('Laat leeg om automatisch te laten genereren')
                             ->required()
                             ->rules([
                                 'max:255',
                             ]),
-                        TextInput::make('meta_title')
-                            ->label('Meta title')
-                            ->rules([
-                                'nullable',
-                                'min:5',
-                                'max:70',
-                            ]),
-                        Textarea::make('meta_description')
-                            ->label('Meta descriptie')
-                            ->rows(2)
-                            ->rules([
-                                'nullable',
-                                'min:5',
-                                'max:170',
-                            ]),
-                        FileUpload::make('meta_image')
-                            ->directory('qcommerce/pages/meta-images')
-//                            ->collection(fn ($livewire) => "meta-image-{$livewire->activeFormLocale}")
-                            ->name('Meta afbeelding')
-                            ->image(),
 
                         Builder::make('content')
                             ->blocks(cms()->builder('blocks'))
                             ->withBlockLabels(),
+                        static::metadataTab(),
                     ]),
             ]);
     }
@@ -152,11 +134,11 @@ class PageResource extends Resource
                 TextColumn::make('site_id')
                     ->label('Actief op site')
                     ->sortable()
-                    ->hidden(! (Sites::getAmountOfSites() > 1))
+                    ->hidden(!(Sites::getAmountOfSites() > 1))
                     ->searchable(),
                 TextColumn::make('status')
                     ->label('Status')
-                    ->getStateUsing(fn ($record) => ucfirst($record->status)),
+                    ->getStateUsing(fn($record) => ucfirst($record->status)),
             ])
             ->filters([
                 //
