@@ -176,7 +176,7 @@ class Page extends Model
         $page = $this;
 
         $homePage = Page::where('is_home', 1)->publicShowable()->first();
-        if($homePage){
+        if ($homePage) {
             $breadcrumbs[] = [
                 'name' => $homePage->name,
                 'url' => $homePage->getUrl(),
