@@ -172,7 +172,7 @@ class Page extends Model
         }
     }
 
-    public function breadcrumbs()
+    public function breadcrumbs(): array
     {
         $breadcrumbs = [];
         $page = $this;
