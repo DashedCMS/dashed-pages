@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Builder;
@@ -50,38 +51,14 @@ class PageResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Globale informatie')
-                    ->schema([
-                        DatePicker::make('start_date')
-                            ->label('Vul een startdatum in voor de pagina:')
-                            ->helperText('Indien je geen startdatum opgeeft, is de pagina direct zichtbaar')
-                            ->rules([
-                                'nullable',
-                                'date',
-                            ]),
-                        DatePicker::make('end_date')
-                            ->label('Vul een einddatum in voor de pagina:')
-                            ->helperText('Indien je geen einddatum opgeeft, vervalt de pagina niet')
-                            ->rules([
-                                'nullable',
-                                'date',
-                                'after:startDate',
-                            ]),
-                        Toggle::make('is_home')
-                            ->label('Dit is de homepagina'),
-                        Select::make('parent_page_id')
-                            ->relationship('parentPage', 'name')
-                            ->options(fn ($record) => Page::where('id', '!=', $record->id ?? 0)->pluck('name', 'id'))
-                            ->label('Bovenliggende pagina'),
-                        Select::make('site_id')
-                            ->label('Actief op site')
-                            ->options(collect(Sites::getSites())->pluck('name', 'id'))
-                            ->hidden(function () {
-                                return ! (Sites::getAmountOfSites() > 1);
-                            })
-                            ->required(),
-                    ])
-                    ->collapsed(fn ($livewire) => $livewire instanceof EditPage),
+                Grid::make([
+                    'default' => 1,
+                    'sm' => 1,
+                    'md' => 1,
+                    'lg' => 1,
+                    'xl' => 6,
+                    '2xl' => 6,
+                ])->schema([
                 Section::make('Content')
                     ->schema(array_merge([
                         TextInput::make('name')
@@ -108,7 +85,84 @@ class PageResource extends Resource
                         Builder::make('content')
                             ->blocks(cms()->builder('blocks'))
                             ->withBlockLabels(),
-                    ], static::metadataTab())),
+                    ]))
+                        ->columnSpan([
+                            'default' => 1,
+                            'sm' => 1,
+                            'md' => 1,
+                            'lg' => 1,
+                            'xl' => 4,
+                            '2xl' => 4,
+                        ]),
+                    Grid::make([
+                        'default' => 1,
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 2,
+                        '2xl' => 2,
+                    ])
+                        ->schema([
+                            Section::make('Globale informatie')
+                                ->schema([
+                                    DatePicker::make('start_date')
+                                        ->label('Vul een startdatum in voor de pagina:')
+                                        ->helperText('Indien je geen startdatum opgeeft, is de pagina direct zichtbaar')
+                                        ->rules([
+                                            'nullable',
+                                            'date',
+                                        ]),
+                                    DatePicker::make('end_date')
+                                        ->label('Vul een einddatum in voor de pagina:')
+                                        ->helperText('Indien je geen einddatum opgeeft, vervalt de pagina niet')
+                                        ->rules([
+                                            'nullable',
+                                            'date',
+                                            'after:startDate',
+                                        ]),
+                                    Toggle::make('is_home')
+                                        ->label('Dit is de homepagina'),
+                                    Select::make('parent_page_id')
+                                        ->relationship('parentPage', 'name')
+                                        ->options(fn ($record) => Page::where('id', '!=', $record->id ?? 0)->pluck('name', 'id'))
+                                        ->label('Bovenliggende pagina'),
+                                    Select::make('site_id')
+                                        ->label('Actief op site')
+                                        ->options(collect(Sites::getSites())->pluck('name', 'id'))
+                                        ->hidden(function () {
+                                            return ! (Sites::getAmountOfSites() > 1);
+                                        })
+                                        ->required(),
+                                ])
+                                ->collapsed(fn ($livewire) => $livewire instanceof EditPage)
+                                ->columnSpan([
+                                    'default' => 1,
+                                    'sm' => 1,
+                                    'md' => 1,
+                                    'lg' => 1,
+                                    'xl' => 2,
+                                    '2xl' => 2,
+                                ]),
+                            Section::make('Meta data')
+                                ->schema(static::metadataTab())
+                                ->columnSpan([
+                                    'default' => 1,
+                                    'sm' => 1,
+                                    'md' => 1,
+                                    'lg' => 1,
+                                    'xl' => 2,
+                                    '2xl' => 2,
+                                ]),
+                        ])
+                        ->columnSpan([
+                            'default' => 1,
+                            'sm' => 1,
+                            'md' => 1,
+                            'lg' => 1,
+                            'xl' => 2,
+                            '2xl' => 2,
+                        ]),
+                ]),
             ]);
     }
 
