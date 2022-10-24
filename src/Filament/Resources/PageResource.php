@@ -162,7 +162,7 @@ class PageResource extends Resource
                             'xl' => 2,
                             '2xl' => 2,
                         ]),
-                ])
+                ]),
             ]);
     }
 
