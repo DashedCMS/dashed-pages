@@ -3,8 +3,8 @@
 namespace Qubiqx\QcommercePages\Filament\Resources\PageResource\Pages;
 
 use Filament\Resources\Pages\ListRecords;
-use Qubiqx\QcommercePages\Filament\Resources\PageResource;
 use Filament\Resources\Pages\ListRecords\Concerns\Translatable;
+use Qubiqx\QcommercePages\Filament\Resources\PageResource;
 
 class ListPages extends ListRecords
 {
