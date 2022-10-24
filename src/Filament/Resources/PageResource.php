@@ -3,7 +3,6 @@
 namespace Qubiqx\QcommercePages\Filament\Resources;
 
 use Closure;
-use Filament\Forms\Components\BelongsToSelect;
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Section;
@@ -70,7 +69,7 @@ class PageResource extends Resource
                             ]),
                         Toggle::make('is_home')
                             ->label('Dit is de homepagina'),
-                        BelongsToSelect::make('parent_page_id')
+                        Select::make('parent_page_id')
                             ->relationship('parentPage', 'name')
                             ->options(fn ($record) => Page::where('id', '!=', $record->id ?? 0)->pluck('name', 'id'))
                             ->label('Bovenliggende pagina'),
@@ -84,7 +83,7 @@ class PageResource extends Resource
                     ])
                     ->collapsed(fn ($livewire) => $livewire instanceof EditPage),
                 Section::make('Content')
-                    ->schema([
+                    ->schema(array_merge([
                         TextInput::make('name')
                             ->label('Name')
                             ->required()
@@ -109,8 +108,7 @@ class PageResource extends Resource
                         Builder::make('content')
                             ->blocks(cms()->builder('blocks'))
                             ->withBlockLabels(),
-                        static::metadataTab(),
-                    ]),
+                    ], static::metadataTab())),
             ]);
     }
 
