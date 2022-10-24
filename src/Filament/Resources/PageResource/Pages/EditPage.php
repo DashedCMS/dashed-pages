@@ -43,7 +43,7 @@ class EditPage extends EditRecord
         $data['content'] = $this->record->content;
         $data['content'][$this->activeFormLocale] = $content;
 
-        Redirect::handleSlugChange($this->record->slug, $data['slug']);
+        Redirect::handleSlugChange($this->record->getTranslation('slug', $this->activeFormLocale), $data['slug']);
 
         return $data;
     }
