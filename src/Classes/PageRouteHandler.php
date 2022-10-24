@@ -2,14 +2,14 @@
 
 namespace Qubiqx\QcommercePages\Classes;
 
-use Spatie\Sitemap\Sitemap;
-use Spatie\Sitemap\Tags\Url;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\View;
-use Qubiqx\QcommercePages\Models\Page;
-use Qubiqx\QcommerceCore\Classes\Sites;
-use Qubiqx\QcommerceCore\Classes\Locales;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use Qubiqx\QcommerceCore\Classes\Locales;
+use Qubiqx\QcommerceCore\Classes\Sites;
+use Qubiqx\QcommercePages\Models\Page;
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
 
 class PageRouteHandler
 {
@@ -22,7 +22,7 @@ class PageRouteHandler
             foreach ($slugParts as $slugPart) {
                 $page = Page::publicShowable()->where('slug->' . App::getLocale(), $slugPart)->where('parent_page_id', $parentPageId)->where('is_home', 0)->first();
                 $parentPageId = $page?->id;
-                if (!$page) {
+                if (! $page) {
                     return;
                 }
             }
@@ -52,6 +52,7 @@ class PageRouteHandler
                 seo()->metaData('alternateUrls', $alternateUrls);
 
                 View::share('page', $page);
+
                 return view('qcommerce.pages.show');
             } else {
                 return 'pageNotFound';
