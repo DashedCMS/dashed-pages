@@ -3,10 +3,10 @@
 namespace Qubiqx\QcommercePages;
 
 use Filament\PluginServiceProvider;
-use Qubiqx\QcommercePages\Models\Page;
-use Spatie\LaravelPackageTools\Package;
 use Qubiqx\QcommercePages\Classes\PageRouteHandler;
 use Qubiqx\QcommercePages\Filament\Resources\PageResource;
+use Qubiqx\QcommercePages\Models\Page;
+use Spatie\LaravelPackageTools\Package;
 
 class QcommercePagesServiceProvider extends PluginServiceProvider
 {
