@@ -2,14 +2,14 @@
 
 namespace Qubiqx\QcommercePages\Classes;
 
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\View;
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-use Qubiqx\QcommerceCore\Classes\Locales;
-use Qubiqx\QcommerceCore\Classes\Sites;
-use Qubiqx\QcommercePages\Models\Page;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\View;
+use Qubiqx\QcommercePages\Models\Page;
+use Qubiqx\QcommerceCore\Classes\Sites;
+use Qubiqx\QcommerceCore\Classes\Locales;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class PageRouteHandler
 {

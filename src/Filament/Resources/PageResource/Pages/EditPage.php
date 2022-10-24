@@ -2,13 +2,14 @@
 
 namespace Qubiqx\QcommercePages\Filament\Resources\PageResource\Pages;
 
-use Filament\Pages\Actions\ButtonAction;
-use Filament\Resources\Pages\EditRecord;
-use Filament\Resources\Pages\EditRecord\Concerns\Translatable;
 use Illuminate\Support\Str;
-use Qubiqx\QcommerceCore\Classes\Sites;
-use Qubiqx\QcommercePages\Filament\Resources\PageResource;
+use Filament\Pages\Actions\Action;
 use Qubiqx\QcommercePages\Models\Page;
+use Qubiqx\QcommerceCore\Classes\Sites;
+use Filament\Resources\Pages\EditRecord;
+use Qubiqx\QcommerceCore\Models\Redirect;
+use Qubiqx\QcommercePages\Filament\Resources\PageResource;
+use Filament\Resources\Pages\EditRecord\Concerns\Translatable;
 
 class EditPage extends EditRecord
 {
@@ -19,7 +20,8 @@ class EditPage extends EditRecord
     protected function getActions(): array
     {
         return array_merge(parent::getActions(), [
-            ButtonAction::make('view_page')
+            Action::make('view_page')
+                ->button()
                 ->label('Bekijk pagina')
                 ->url($this->record->getUrl())
                 ->openUrlInNewTab(),
@@ -42,5 +44,10 @@ class EditPage extends EditRecord
         $data['content'][$this->activeFormLocale] = $content;
 
         return $data;
+    }
+
+    protected function beforeSave(): void
+    {
+        Redirect::handleSlugChange($this->record->slug, $this->data['slug']);
     }
 }
