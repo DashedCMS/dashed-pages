@@ -72,7 +72,15 @@ class PageResource extends Resource
                                 if ($livewire instanceof CreatePage) {
                                     $set('slug', Str::slug($state));
                                 }
-                            }),
+                            })
+                        ->columnSpan([
+                            'default' => 2,
+                            'sm' => 2,
+                            'md' => 2,
+                            'lg' => 2,
+                            'xl' => 1,
+                            '2xl' => 1,
+                        ]),
                         TextInput::make('slug')
                             ->label('Slug')
                             ->unique('qcommerce__pages', 'slug', fn ($record) => $record)
@@ -80,12 +88,29 @@ class PageResource extends Resource
                             ->required()
                             ->rules([
                                 'max:255',
-                            ]),
+                            ])
+                        ->columnSpan([
+                            'default' => 2,
+                            'sm' => 2,
+                            'md' => 2,
+                            'lg' => 2,
+                            'xl' => 1,
+                            '2xl' => 1,
+                        ]),
 
                         Builder::make('content')
                             ->blocks(cms()->builder('blocks'))
-                            ->withBlockLabels(),
+                            ->withBlockLabels()
+                        ->columnSpan(2),
                     ]))
+                    ->columns([
+                        'default' => 1,
+                        'sm' => 1,
+                        'md' => 1,
+                        'lg' => 1,
+                        'xl' => 2,
+                        '2xl' => 2,
+                    ])
                         ->columnSpan([
                             'default' => 1,
                             'sm' => 1,
@@ -134,7 +159,6 @@ class PageResource extends Resource
                                         })
                                         ->required(),
                                 ])
-                                ->collapsed(fn ($livewire) => $livewire instanceof EditPage)
                                 ->columnSpan([
                                     'default' => 1,
                                     'sm' => 1,
