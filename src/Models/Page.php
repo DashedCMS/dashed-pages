@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Qubiqx\QcommerceCore\Classes\Sites;
+use Qubiqx\QcommerceCore\Models\Concerns\HasCustomBlocks;
 use Qubiqx\QcommerceCore\Models\Concerns\HasMetadata;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -20,31 +21,16 @@ class Page extends Model
     use HasTranslations;
     use LogsActivity;
     use HasMetadata;
+    use HasCustomBlocks;
 
     protected static $logFillable = true;
 
     protected $table = 'qcommerce__pages';
-    protected $fillable = [
-        'name',
-        'slug',
-        'is_home',
-        'parent_page_id',
-        'content',
-        'site_id',
-        'meta_title',
-        'meta_description',
-        'meta_image',
-        'start_date',
-        'end_date',
-    ];
 
     public $translatable = [
         'name',
         'slug',
         'content',
-        'meta_title',
-        'meta_description',
-        'meta_image',
     ];
 
     protected $dates = [
