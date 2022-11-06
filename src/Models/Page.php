@@ -92,18 +92,13 @@ class Page extends Model
         ;
     }
 
-    public function scopeSearch($query)
+    public function scopeSearch($query, ?string $search = null)
     {
-        if (request()->get('search')) {
-            $search = strtolower(request()->get('search'));
+        if (request()->get('search') ?: $search) {
+            $search = strtolower(request()->get('search') ?: $search);
             $query->where('name', 'LIKE', "%$search%")
                 ->orWhere('slug', 'LIKE', "%$search%")
-                ->orWhere('content', 'LIKE', "%$search%")
-                ->orWhere('start_date', 'LIKE', "%$search%")
-                ->orWhere('end_date', 'LIKE', "%$search%")
-                ->orWhere('meta_title', 'LIKE', "%$search%")
-                ->orWhere('meta_description', 'LIKE', "%$search%")
-                ->orWhere('site_id', 'LIKE', "%$search%");
+                ->orWhere('content', 'LIKE', "%$search%");
         }
     }
 
