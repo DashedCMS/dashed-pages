@@ -52,6 +52,7 @@ class PageRouteHandler
                 seo()->metaData('alternateUrls', $alternateUrls);
 
                 View::share('page', $page);
+                View::share('breadcrumbs', $page->breadcrumbs());
 
                 return view('qcommerce.pages.show');
             } else {
