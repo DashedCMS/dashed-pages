@@ -202,8 +202,6 @@ class PageResource extends Resource
                         'name',
                         'slug',
                         'content',
-                        'meta_title',
-                        'meta_description',
                     ]),
                 TextColumn::make('site_id')
                     ->label('Actief op site')
