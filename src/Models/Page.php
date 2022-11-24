@@ -89,7 +89,7 @@ class Page extends Model
                 $query->where('end_date', null)
                     ->orWhere('end_date', '>=', now()->format('Y-m-d H:i:s'));
             });
-            ;
+        ;
     }
 
     public function scopeSearch($query, ?string $search = null)
