@@ -43,6 +43,7 @@ class EditPage extends EditRecord
             }
         }
         $newPage->save();
+
         return redirect(route('filament.resources.pages.edit', [$newPage]));
     }
 
