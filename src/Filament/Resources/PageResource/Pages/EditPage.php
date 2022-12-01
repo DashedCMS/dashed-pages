@@ -6,8 +6,10 @@ use Filament\Pages\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\EditRecord\Concerns\Translatable;
 use Illuminate\Support\Str;
+use Qubiqx\QcommerceCore\Classes\Locales;
 use Qubiqx\QcommerceCore\Classes\Sites;
 use Qubiqx\QcommerceCore\Models\Redirect;
+use Qubiqx\QcommerceEcommerceCore\Models\Product;
 use Qubiqx\QcommercePages\Filament\Resources\PageResource;
 use Qubiqx\QcommercePages\Models\Page;
 
@@ -25,8 +27,23 @@ class EditPage extends EditRecord
                 ->label('Bekijk pagina')
                 ->url($this->record->getUrl())
                 ->openUrlInNewTab(),
+            Action::make('Dupliceer pagina')
+                ->action('duplicatePage')
+                ->color('warning'),
             $this->getActiveFormLocaleSelectAction(),
         ]);
+    }
+
+    public function duplicatePage()
+    {
+        $newPage = $this->record->replicate();
+        foreach (Locales::getLocales() as $locale) {
+            $newPage->setTranslation('slug', $locale['id'], $newPage->getTranslation('slug', $locale['id']));
+            while (Product::where('slug->' . $locale['id'], $newPage->getTranslation('slug', $locale['id']))->count()) {
+                $newPage->setTranslation('slug', $locale['id'], $newPage->getTranslation('slug', $locale['id']) . Str::random(1));
+            }
+        }
+        $newPage->save();
     }
 
     protected function mutateFormDataBeforeSave(array $data): array
