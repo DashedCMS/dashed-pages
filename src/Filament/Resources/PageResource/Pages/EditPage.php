@@ -42,7 +42,20 @@ class EditPage extends EditRecord
                 $newPage->setTranslation('slug', $locale['id'], $newPage->getTranslation('slug', $locale['id']) . Str::random(1));
             }
         }
+
         $newPage->save();
+
+        if ($this->record->customBlocks) {
+            $newCustomBlock = $this->record->customBlocks->replicate();
+            $newCustomBlock->blockable_id = $newPage->id;
+            $newCustomBlock->save();
+        }
+
+        if ($this->record->metaData) {
+            $newMetaData = $this->record->metaData->replicate();
+            $newMetaData->metadatable_id = $newPage->id;
+            $newMetaData->save();
+        }
 
         return redirect(route('filament.resources.pages.edit', [$newPage]));
     }
