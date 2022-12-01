@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 use Qubiqx\QcommerceCore\Classes\Locales;
 use Qubiqx\QcommerceCore\Classes\Sites;
 use Qubiqx\QcommerceCore\Models\Redirect;
-use Qubiqx\QcommerceEcommerceCore\Models\Product;
 use Qubiqx\QcommercePages\Filament\Resources\PageResource;
 use Qubiqx\QcommercePages\Models\Page;
 
@@ -39,7 +38,7 @@ class EditPage extends EditRecord
         $newPage = $this->record->replicate();
         foreach (Locales::getLocales() as $locale) {
             $newPage->setTranslation('slug', $locale['id'], $newPage->getTranslation('slug', $locale['id']));
-            while (Product::where('slug->' . $locale['id'], $newPage->getTranslation('slug', $locale['id']))->count()) {
+            while (Page::where('slug->' . $locale['id'], $newPage->getTranslation('slug', $locale['id']))->count()) {
                 $newPage->setTranslation('slug', $locale['id'], $newPage->getTranslation('slug', $locale['id']) . Str::random(1));
             }
         }
