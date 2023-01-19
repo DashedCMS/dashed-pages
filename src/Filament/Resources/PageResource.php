@@ -33,7 +33,6 @@ class PageResource extends Resource
     protected static ?string $model = Page::class;
 
     protected static ?string $recordTitleAttribute = 'name';
-
     protected static ?string $navigationIcon = 'heroicon-o-book-open';
     protected static ?string $navigationGroup = 'Content';
     protected static ?string $navigationLabel = 'Pagina\'s';

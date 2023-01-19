@@ -24,9 +24,9 @@ class CreatePage extends CreateRecord
         }
 
         $data['site_id'] = $data['site_id'] ?? Sites::getFirstSite()['id'];
-        $content = $data['content'];
-        $data['content'] = null;
-        $data['content'][$this->activeFormLocale] = $content;
+//        $content = $data['content'];
+//        $data['content'] = null;
+//        $data['content'][$this->activeFormLocale] = $content;
 
         return $data;
     }

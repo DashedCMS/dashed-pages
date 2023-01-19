@@ -70,9 +70,9 @@ class EditPage extends EditRecord
 
         $data['site_id'] = $data['site_id'] ?? Sites::getFirstSite()['id'];
 
-        $content = $data['content'];
-        $data['content'] = $this->record->content;
-        $data['content'][$this->activeFormLocale] = $content;
+//        $content = $data['content'];
+//        $data['content'] = $this->record->content;
+//        $data['content'][$this->activeFormLocale] = $content;
 
         Redirect::handleSlugChange($this->record->getTranslation('slug', $this->activeFormLocale), $data['slug']);
 
