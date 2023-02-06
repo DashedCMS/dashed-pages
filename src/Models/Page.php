@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Qubiqx\QcommerceCore\Classes\Sites;
@@ -73,7 +72,7 @@ class Page extends Model
 
     public function scopeThisSite($query, $siteId = null)
     {
-        if (!$siteId) {
+        if (! $siteId) {
             $siteId = Sites::getActive();
         }
 
@@ -89,7 +88,8 @@ class Page extends Model
             })->where(function ($query) {
                 $query->where('end_date', null)
                     ->orWhere('end_date', '>=', now()->format('Y-m-d H:i:s'));
-            });;
+            });
+            ;
     }
 
     public function scopeSearch($query, ?string $search = null)
@@ -127,7 +127,7 @@ class Page extends Model
 
     public function getStatusAttribute()
     {
-        if (!$this->start_date && !$this->end_date) {
+        if (! $this->start_date && ! $this->end_date) {
             return 'active';
         } else {
             if ($this->start_date && $this->end_date) {
@@ -168,7 +168,7 @@ class Page extends Model
         }
 
         while ($page->parentPage) {
-            if (!$page->parentPage->is_home) {
+            if (! $page->parentPage->is_home) {
                 $breadcrumbs[] = [
                     'name' => $page->parentPage->name,
                     'url' => $page->parentPage->getUrl(),
