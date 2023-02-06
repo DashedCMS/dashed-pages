@@ -73,7 +73,7 @@ class Page extends Model
 
     public function scopeThisSite($query, $siteId = null)
     {
-        if (! $siteId) {
+        if (!$siteId) {
             $siteId = Sites::getActive();
         }
 
@@ -89,8 +89,7 @@ class Page extends Model
             })->where(function ($query) {
                 $query->where('end_date', null)
                     ->orWhere('end_date', '>=', now()->format('Y-m-d H:i:s'));
-            });
-            ;
+            });;
     }
 
     public function scopeSearch($query, ?string $search = null)
@@ -99,7 +98,8 @@ class Page extends Model
             $search = strtolower(request()->get('search') ?: $search);
             $query->where('name', 'LIKE', "%$search%")
                 ->orWhere('slug', 'LIKE', "%$search%")
-                ->orWhere('content->' . App::getLocale(), 'LIKE', "%$search%");
+                ->orWhereRaw('LOWER(`content`) LIKE ? ', ['%' . trim(strtolower($search)) . '%']);
+//                ->orWhere('content', 'LIKE', "%$search%");
         }
     }
 
@@ -127,7 +127,7 @@ class Page extends Model
 
     public function getStatusAttribute()
     {
-        if (! $this->start_date && ! $this->end_date) {
+        if (!$this->start_date && !$this->end_date) {
             return 'active';
         } else {
             if ($this->start_date && $this->end_date) {
@@ -168,7 +168,7 @@ class Page extends Model
         }
 
         while ($page->parentPage) {
-            if (! $page->parentPage->is_home) {
+            if (!$page->parentPage->is_home) {
                 $breadcrumbs[] = [
                     'name' => $page->parentPage->name,
                     'url' => $page->parentPage->getUrl(),
