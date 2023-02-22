@@ -101,6 +101,7 @@ class PageResource extends Resource
                             Builder::make('content')
                                 ->blocks(cms()->builder('blocks'))
                                 ->withBlockLabels()
+                                ->cloneable()
                                 ->columnSpan(2),
                         ], static::customBlocksTab(cms()->builder('pageBlocks'))))
                         ->columns([
