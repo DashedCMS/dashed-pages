@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::table('qcommerce__pages', function (Blueprint $table) {
             $table->dropForeign('qcommerce__pages_parent_page_id_foreign');
             $table->renameColumn('parent_page_id', 'parent_id');
+        });
+        Schema::table('qcommerce__pages', function (Blueprint $table) {
             $table->foreignId('parent_id')
                 ->change()
                 ->nullable()
