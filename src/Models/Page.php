@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\View;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Qubiqx\QcommerceCore\Classes\Sites;
 use Qubiqx\QcommerceCore\Models\Concerns\HasCustomBlocks;
 use Qubiqx\QcommerceCore\Models\Concerns\HasMetadata;
+use Qubiqx\QcommerceCore\Models\Concerns\IsVisitable;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Translatable\HasTranslations;
@@ -18,12 +20,8 @@ use Spatie\Translatable\HasTranslations;
 class Page extends Model
 {
     use SoftDeletes;
-    use HasTranslations;
-    use LogsActivity;
-    use HasMetadata;
+    use IsVisitable;
     use HasCustomBlocks;
-
-    protected static $logFillable = true;
 
     protected $table = 'qcommerce__pages';
 
@@ -43,10 +41,11 @@ class Page extends Model
 
     public $casts = [
         'content' => 'array',
+        'site_ids' => 'array',
     ];
 
     public $with = [
-        'parentPage',
+        'parent',
     ];
 
     protected static function booted()
@@ -58,49 +57,15 @@ class Page extends Model
         static::updated(function ($page) {
             Cache::tags(['pages', "page-$page->id"])->flush();
         });
+
+        static::deleted(function ($page) {
+            Cache::tags(['pages', "page-$page->id"])->flush();
+        });
     }
 
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults();
-    }
-
-    public function parentPage(): BelongsTo
+    public function parent(): BelongsTo
     {
         return $this->belongsTo(self::class);
-    }
-
-    public function scopeThisSite($query, $siteId = null)
-    {
-        if (! $siteId) {
-            $siteId = Sites::getActive();
-        }
-
-        $query->where('site_id', $siteId);
-    }
-
-    public function scopePublicShowable($query)
-    {
-        $query->thisSite()
-            ->where(function ($query) {
-                $query->where('start_date', null)
-                    ->orWhere('start_date', '<=', now()->format('Y-m-d H:i:s'));
-            })->where(function ($query) {
-                $query->where('end_date', null)
-                    ->orWhere('end_date', '>=', now()->format('Y-m-d H:i:s'));
-            });
-        ;
-    }
-
-    public function scopeSearch($query, ?string $search = null)
-    {
-        if (request()->get('search') ?: $search) {
-            $search = strtolower(request()->get('search') ?: $search);
-            $query->where('name', 'LIKE', "%$search%")
-                ->orWhere('slug', 'LIKE', "%$search%")
-                ->orWhereRaw('LOWER(`content`) LIKE ? ', ['%' . trim(strtolower($search)) . '%']);
-//                ->orWhere('content', 'LIKE', "%$search%");
-        }
     }
 
     public function scopeIsHome($query)
@@ -113,85 +78,51 @@ class Page extends Model
         $query->where('is_home', 0);
     }
 
-    public function getUrl()
+    public static function resolveRoute($parameters = [])
     {
-        if ($this->is_home) {
-            $url = '/';
-        } elseif ($this->parentPage) {
-            $url = "{$this->parentPage->getUrl()}/{$this->slug}";
-        } else {
-            $url = $this->slug;
-        }
-
-        return LaravelLocalization::localizeUrl($url);
-    }
-
-    public function site()
-    {
-        foreach (Sites::getSites() as $site) {
-            if ($site['id'] == $this->site_id) {
-                return $site;
-            }
-        }
-    }
-
-    public function getStatusAttribute()
-    {
-        if (! $this->start_date && ! $this->end_date) {
-            return 'active';
-        } else {
-            if ($this->start_date && $this->end_date) {
-                if ($this->start_date <= Carbon::now() && $this->end_date >= Carbon::now()) {
-                    return 'active';
-                } else {
-                    return 'inactive';
+        $slug = $parameters['slug'] ?? '';
+        if ($slug) {
+            $slugParts = explode('/', $slug);
+            $parentPageId = null;
+            foreach ($slugParts as $slugPart) {
+                $page = Page::publicShowable()->isNotHome()->where('slug->' . app()->getLocale(), $slugPart)->where('parent_id', $parentPageId)->first();
+                $parentPageId = $page?->id;
+                if (! $page) {
+                    return;
                 }
+            }
+        } else {
+            $page = Page::publicShowable()->isHome()->first();
+        }
+
+        if ($page) {
+            if (View::exists('qcommerce.pages.show')) {
+                seo()->metaData('metaTitle', $page->metadata && $page->metadata->title ? $page->metadata->title : $page->name);
+                seo()->metaData('metaDescription', $page->metadata->description ?? '');
+                if ($page->metadata && $page->metadata->image) {
+                    seo()->metaData('metaImage', $page->metadata->image);
+                }
+
+                $correctLocale = app()->getLocale();
+                $alternateUrls = [];
+                foreach (Sites::getLocales() as $locale) {
+                    if ($locale['id'] != $correctLocale) {
+                        LaravelLocalization::setLocale($locale['id']);
+                        app()->setLocale($locale['id']);
+                        $alternateUrls[$locale['id']] = $page->getUrl();
+                    }
+                }
+                LaravelLocalization::setLocale($correctLocale);
+                app()->setLocale($correctLocale);
+                seo()->metaData('alternateUrls', $alternateUrls);
+
+                View::share('page', $page);
+                View::share('breadcrumbs', $page->breadcrumbs());
+
+                return view('qcommerce.pages.show');
             } else {
-                if ($this->start_date) {
-                    if ($this->start_date <= Carbon::now()) {
-                        return 'active';
-                    } else {
-                        return 'inactive';
-                    }
-                } else {
-                    if ($this->end_date >= Carbon::now()) {
-                        return 'active';
-                    } else {
-                        return 'inactive';
-                    }
-                }
+                return 'pageNotFound';
             }
         }
-    }
-
-    public function breadcrumbs(): array
-    {
-        $breadcrumbs = [];
-        $page = $this;
-
-        $homePage = Page::isHome()->publicShowable()->first();
-        if ($homePage) {
-            $breadcrumbs[] = [
-                'name' => $homePage->name,
-                'url' => $homePage->getUrl(),
-            ];
-        }
-
-        while ($page->parentPage) {
-            if (! $page->parentPage->is_home) {
-                $breadcrumbs[] = [
-                    'name' => $page->parentPage->name,
-                    'url' => $page->parentPage->getUrl(),
-                ];
-            }
-            $page = $page->parentPage;
-        }
-
-        $breadcrumbs[] = [
-            'name' => $this->name,
-            'url' => $this->getUrl(),
-        ];
-
-        return $breadcrumbs;
     }
 }

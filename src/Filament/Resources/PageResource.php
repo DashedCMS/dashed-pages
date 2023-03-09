@@ -19,6 +19,7 @@ use Illuminate\Support\Str;
 use Qubiqx\QcommerceCore\Classes\Sites;
 use Qubiqx\QcommerceCore\Filament\Concerns\HasCustomBlocksTab;
 use Qubiqx\QcommerceCore\Filament\Concerns\HasMetadataTab;
+use Qubiqx\QcommerceCore\Filament\Concerns\HasVisitableTab;
 use Qubiqx\QcommercePages\Filament\Resources\PageResource\Pages\CreatePage;
 use Qubiqx\QcommercePages\Filament\Resources\PageResource\Pages\EditPage;
 use Qubiqx\QcommercePages\Filament\Resources\PageResource\Pages\ListPages;
@@ -27,7 +28,7 @@ use Qubiqx\QcommercePages\Models\Page;
 class PageResource extends Resource
 {
     use Translatable;
-    use HasMetadataTab;
+    use HasVisitableTab;
     use HasCustomBlocksTab;
 
     protected static ?string $model = Page::class;
@@ -84,7 +85,7 @@ class PageResource extends Resource
                                 ]),
                             TextInput::make('slug')
                                 ->label('Slug')
-                                ->unique('qcommerce__pages', 'slug', fn ($record) => $record)
+                                ->unique('qcommerce__pages', 'slug', fn($record) => $record)
                                 ->helperText('Laat leeg om automatisch te laten genereren')
                                 ->required()
                                 ->rules([
@@ -130,36 +131,11 @@ class PageResource extends Resource
                     ])
                         ->schema([
                             Section::make('Globale informatie')
-                                ->schema([
-                                    DatePicker::make('start_date')
-                                        ->label('Vul een startdatum in voor de pagina:')
-                                        ->helperText('Indien je geen startdatum opgeeft, is de pagina direct zichtbaar')
-                                        ->rules([
-                                            'nullable',
-                                            'date',
-                                        ]),
-                                    DatePicker::make('end_date')
-                                        ->label('Vul een einddatum in voor de pagina:')
-                                        ->helperText('Indien je geen einddatum opgeeft, vervalt de pagina niet')
-                                        ->rules([
-                                            'nullable',
-                                            'date',
-                                            'after:startDate',
-                                        ]),
+                                ->schema(array_merge([
                                     Toggle::make('is_home')
                                         ->label('Dit is de homepagina'),
-                                    Select::make('parent_page_id')
-                                        ->relationship('parentPage', 'name')
-                                        ->options(fn ($record) => Page::where('id', '!=', $record->id ?? 0)->pluck('name', 'id'))
-                                        ->label('Bovenliggende pagina'),
-                                    Select::make('site_id')
-                                        ->label('Actief op site')
-                                        ->options(collect(Sites::getSites())->pluck('name', 'id'))
-                                        ->hidden(function () {
-                                            return ! (Sites::getAmountOfSites() > 1);
-                                        })
-                                        ->required(),
-                                ])
+                                ],
+                                    static::publishTab()))
                                 ->columnSpan([
                                     'default' => 1,
                                     'sm' => 1,
@@ -203,14 +179,14 @@ class PageResource extends Resource
                         'slug',
                         'content',
                     ]),
-                TextColumn::make('site_id')
-                    ->label('Actief op site')
+                TextColumn::make('site_ids')
+                    ->label('Actief op sites')
                     ->sortable()
-                    ->hidden(! (Sites::getAmountOfSites() > 1))
+                    ->hidden(!(Sites::getAmountOfSites() > 1))
                     ->searchable(),
                 TextColumn::make('status')
                     ->label('Status')
-                    ->getStateUsing(fn ($record) => ucfirst($record->status)),
+                    ->getStateUsing(fn($record) => ucfirst($record->status)),
             ])
             ->filters([
                 //

@@ -26,7 +26,6 @@ class QcommercePagesServiceProvider extends PluginServiceProvider
                     'pluralName' => 'Pagina\'s',
                     'class' => Page::class,
                     'nameField' => 'name',
-                    'routeHandler' => PageRouteHandler::class,
                 ],
             ])
         );
