@@ -20,14 +20,14 @@ class PageRouteHandler
             $slugParts = explode('/', $slug);
             $parentPageId = null;
             foreach ($slugParts as $slugPart) {
-                $page = Page::publicShowable()->where('slug->' . App::getLocale(), $slugPart)->where('parent_page_id', $parentPageId)->where('is_home', 0)->first();
+                $page = Page::publicShowable()->isNotHome()->where('slug->' . App::getLocale(), $slugPart)->where('parent_page_id', $parentPageId)->first();
                 $parentPageId = $page?->id;
                 if (! $page) {
                     return;
                 }
             }
         } else {
-            $page = Page::publicShowable()->where('is_home', 1)->first();
+            $page = Page::publicShowable()->isHome()->first();
         }
 
         if ($page) {

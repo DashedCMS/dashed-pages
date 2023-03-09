@@ -103,6 +103,16 @@ class Page extends Model
         }
     }
 
+    public function scopeIsHome($query)
+    {
+        $query->where('is_home', 1);
+    }
+
+    public function scopeIsNotHome($query)
+    {
+        $query->where('is_home', 0);
+    }
+
     public function getUrl()
     {
         if ($this->is_home) {
@@ -159,7 +169,7 @@ class Page extends Model
         $breadcrumbs = [];
         $page = $this;
 
-        $homePage = Page::where('is_home', 1)->publicShowable()->first();
+        $homePage = Page::isHome()->publicShowable()->first();
         if ($homePage) {
             $breadcrumbs[] = [
                 'name' => $homePage->name,
