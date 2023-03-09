@@ -12,6 +12,7 @@ use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\Str;
 use Qubiqx\QcommerceCore\Classes\Sites;
@@ -169,7 +170,7 @@ class PageResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
+            ->columns(array_merge([
                 TextColumn::make('name')
                     ->label('Naam')
                     ->sortable()
@@ -178,15 +179,7 @@ class PageResource extends Resource
                         'slug',
                         'content',
                     ]),
-                TextColumn::make('site_ids')
-                    ->label('Actief op sites')
-                    ->sortable()
-                    ->hidden(! (Sites::getAmountOfSites() > 1))
-                    ->searchable(),
-                TextColumn::make('status')
-                    ->label('Status')
-                    ->getStateUsing(fn ($record) => ucfirst($record->status)),
-            ])
+            ], static::visitableTableColumns()))
             ->filters([
                 //
             ]);
