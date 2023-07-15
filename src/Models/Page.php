@@ -82,7 +82,7 @@ class Page extends Model
             foreach ($slugParts as $slugPart) {
                 $page = Page::publicShowable()->isNotHome()->where('slug->' . app()->getLocale(), $slugPart)->where('parent_id', $parentPageId)->first();
                 $parentPageId = $page?->id;
-                if (! $page) {
+                if (!$page) {
                     return;
                 }
             }
