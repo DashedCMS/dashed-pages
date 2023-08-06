@@ -1,13 +1,13 @@
 <?php
 
-namespace Qubiqx\QcommercePages\Filament\Resources\PageResource\Pages;
+namespace Dashed\DashedPages\Filament\Resources\PageResource\Pages;
 
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\Pages\CreateRecord\Concerns\Translatable;
 use Illuminate\Support\Str;
-use Qubiqx\QcommerceCore\Classes\Sites;
-use Qubiqx\QcommercePages\Filament\Resources\PageResource;
-use Qubiqx\QcommercePages\Models\Page;
+use Dashed\DashedCore\Classes\Sites;
+use Dashed\DashedPages\Filament\Resources\PageResource;
+use Dashed\DashedPages\Models\Page;
 
 class CreatePage extends CreateRecord
 {

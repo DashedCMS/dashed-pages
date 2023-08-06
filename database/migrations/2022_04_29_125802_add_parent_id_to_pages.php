@@ -12,8 +12,8 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::table('qcommerce__pages', function (Blueprint $table) {
-            $table->foreignId('parent_page_id')->after('is_home')->nullable()->constrained('qcommerce__pages');
+        Schema::table('dashed__pages', function (Blueprint $table) {
+            $table->foreignId('parent_page_id')->after('is_home')->nullable()->constrained('dashed__pages');
         });
     }
 

@@ -13,16 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        foreach(\Qubiqx\QcommercePages\Models\Page::withTrashed()->get() as $model){
+        foreach(\Dashed\DashedPages\Models\Page::withTrashed()->get() as $model){
             $model->site_id = json_encode([$model->site_id]);
             $model->save();
         }
 
-        Schema::table('qcommerce__pages', function (Blueprint $table) {
+        Schema::table('dashed__pages', function (Blueprint $table) {
             $table->renameColumn('site_id', 'site_ids');
         });
 
-        Schema::table('qcommerce__pages', function (Blueprint $table) {
+        Schema::table('dashed__pages', function (Blueprint $table) {
             $table->json('site_ids')
                 ->change();
         });

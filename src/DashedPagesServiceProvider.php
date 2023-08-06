@@ -1,15 +1,15 @@
 <?php
 
-namespace Qubiqx\QcommercePages;
+namespace Dashed\DashedPages;
 
 use Filament\PluginServiceProvider;
-use Qubiqx\QcommercePages\Filament\Resources\PageResource;
-use Qubiqx\QcommercePages\Models\Page;
+use Dashed\DashedPages\Filament\Resources\PageResource;
+use Dashed\DashedPages\Models\Page;
 use Spatie\LaravelPackageTools\Package;
 
-class QcommercePagesServiceProvider extends PluginServiceProvider
+class DashedPagesServiceProvider extends PluginServiceProvider
 {
-    public static string $name = 'qcommerce-pages';
+    public static string $name = 'dashed-pages';
 
     public function configurePackage(Package $package): void
     {
@@ -30,7 +30,7 @@ class QcommercePagesServiceProvider extends PluginServiceProvider
         );
 
         $package
-            ->name('qcommerce-pages');
+            ->name('dashed-pages');
     }
 
     protected function getResources(): array

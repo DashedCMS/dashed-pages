@@ -1,10 +1,10 @@
 <?php
 
-namespace Qubiqx\QcommercePages\Filament\Resources\PageResource\Pages;
+namespace Dashed\DashedPages\Filament\Resources\PageResource\Pages;
 
 use Filament\Resources\Pages\ListRecords;
 use Filament\Resources\Pages\ListRecords\Concerns\Translatable;
-use Qubiqx\QcommercePages\Filament\Resources\PageResource;
+use Dashed\DashedPages\Filament\Resources\PageResource;
 
 class ListPages extends ListRecords
 {

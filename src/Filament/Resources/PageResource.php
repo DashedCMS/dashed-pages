@@ -1,6 +1,6 @@
 <?php
 
-namespace Qubiqx\QcommercePages\Filament\Resources;
+namespace Dashed\DashedPages\Filament\Resources;
 
 use Closure;
 use Filament\Forms\Components\Builder;
@@ -14,12 +14,12 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\Str;
-use Qubiqx\QcommerceCore\Filament\Concerns\HasCustomBlocksTab;
-use Qubiqx\QcommerceCore\Filament\Concerns\HasVisitableTab;
-use Qubiqx\QcommercePages\Filament\Resources\PageResource\Pages\CreatePage;
-use Qubiqx\QcommercePages\Filament\Resources\PageResource\Pages\EditPage;
-use Qubiqx\QcommercePages\Filament\Resources\PageResource\Pages\ListPages;
-use Qubiqx\QcommercePages\Models\Page;
+use Dashed\DashedCore\Filament\Concerns\HasCustomBlocksTab;
+use Dashed\DashedCore\Filament\Concerns\HasVisitableTab;
+use Dashed\DashedPages\Filament\Resources\PageResource\Pages\CreatePage;
+use Dashed\DashedPages\Filament\Resources\PageResource\Pages\EditPage;
+use Dashed\DashedPages\Filament\Resources\PageResource\Pages\ListPages;
+use Dashed\DashedPages\Models\Page;
 
 class PageResource extends Resource
 {
@@ -81,7 +81,7 @@ class PageResource extends Resource
                                 ]),
                             TextInput::make('slug')
                                 ->label('Slug')
-                                ->unique('qcommerce__pages', 'slug', fn ($record) => $record)
+                                ->unique('dashed__pages', 'slug', fn ($record) => $record)
                                 ->helperText('Laat leeg om automatisch te laten genereren')
                                 ->required()
                                 ->rules([

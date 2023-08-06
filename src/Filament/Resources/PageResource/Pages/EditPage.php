@@ -1,16 +1,16 @@
 <?php
 
-namespace Qubiqx\QcommercePages\Filament\Resources\PageResource\Pages;
+namespace Dashed\DashedPages\Filament\Resources\PageResource\Pages;
 
 use Filament\Pages\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\EditRecord\Concerns\Translatable;
 use Illuminate\Support\Str;
-use Qubiqx\QcommerceCore\Classes\Locales;
-use Qubiqx\QcommerceCore\Classes\Sites;
-use Qubiqx\QcommerceCore\Models\Redirect;
-use Qubiqx\QcommercePages\Filament\Resources\PageResource;
-use Qubiqx\QcommercePages\Models\Page;
+use Dashed\DashedCore\Classes\Locales;
+use Dashed\DashedCore\Classes\Sites;
+use Dashed\DashedCore\Models\Redirect;
+use Dashed\DashedPages\Filament\Resources\PageResource;
+use Dashed\DashedPages\Models\Page;
 
 class EditPage extends EditRecord
 {

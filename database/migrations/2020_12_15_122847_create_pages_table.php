@@ -13,7 +13,7 @@ class CreatePagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('qcommerce__pages', function (Blueprint $table) {
+        Schema::create('dashed__pages', function (Blueprint $table) {
             $table->id();
 
             $table->json('name');

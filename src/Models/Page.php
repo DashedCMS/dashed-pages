@@ -1,6 +1,6 @@
 <?php
 
-namespace Qubiqx\QcommercePages\Models;
+namespace Dashed\DashedPages\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-use Qubiqx\QcommerceCore\Classes\Sites;
-use Qubiqx\QcommerceCore\Models\Concerns\HasCustomBlocks;
-use Qubiqx\QcommerceCore\Models\Concerns\IsVisitable;
+use Dashed\DashedCore\Classes\Sites;
+use Dashed\DashedCore\Models\Concerns\HasCustomBlocks;
+use Dashed\DashedCore\Models\Concerns\IsVisitable;
 
 class Page extends Model
 {
@@ -18,7 +18,7 @@ class Page extends Model
     use IsVisitable;
     use HasCustomBlocks;
 
-    protected $table = 'qcommerce__pages';
+    protected $table = 'dashed__pages';
 
     public $translatable = [
         'name',
@@ -91,7 +91,7 @@ class Page extends Model
         }
 
         if ($page) {
-            if (View::exists('qcommerce.pages.show')) {
+            if (View::exists('dashed.pages.show')) {
                 seo()->metaData('metaTitle', $page->metadata && $page->metadata->title ? $page->metadata->title : $page->name);
                 seo()->metaData('metaDescription', $page->metadata->description ?? '');
                 if ($page->metadata && $page->metadata->image) {
@@ -114,7 +114,7 @@ class Page extends Model
                 View::share('page', $page);
                 View::share('breadcrumbs', $page->breadcrumbs());
 
-                return view('qcommerce.pages.show');
+                return view('dashed.pages.show');
             } else {
                 return 'pageNotFound';
             }
