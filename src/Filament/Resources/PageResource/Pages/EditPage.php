@@ -2,15 +2,15 @@
 
 namespace Dashed\DashedPages\Filament\Resources\PageResource\Pages;
 
-use Filament\Pages\Actions\Action;
-use Filament\Resources\Pages\EditRecord;
-use Filament\Resources\Pages\EditRecord\Concerns\Translatable;
-use Illuminate\Support\Str;
 use Dashed\DashedCore\Classes\Locales;
 use Dashed\DashedCore\Classes\Sites;
 use Dashed\DashedCore\Models\Redirect;
 use Dashed\DashedPages\Filament\Resources\PageResource;
 use Dashed\DashedPages\Models\Page;
+use Filament\Pages\Actions\Action;
+use Filament\Resources\Pages\EditRecord;
+use Filament\Resources\Pages\EditRecord\Concerns\Translatable;
+use Illuminate\Support\Str;
 
 class EditPage extends EditRecord
 {

@@ -3,6 +3,12 @@
 namespace Dashed\DashedPages\Filament\Resources;
 
 use Closure;
+use Dashed\DashedCore\Filament\Concerns\HasCustomBlocksTab;
+use Dashed\DashedCore\Filament\Concerns\HasVisitableTab;
+use Dashed\DashedPages\Filament\Resources\PageResource\Pages\CreatePage;
+use Dashed\DashedPages\Filament\Resources\PageResource\Pages\EditPage;
+use Dashed\DashedPages\Filament\Resources\PageResource\Pages\ListPages;
+use Dashed\DashedPages\Models\Page;
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
@@ -14,12 +20,6 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\Str;
-use Dashed\DashedCore\Filament\Concerns\HasCustomBlocksTab;
-use Dashed\DashedCore\Filament\Concerns\HasVisitableTab;
-use Dashed\DashedPages\Filament\Resources\PageResource\Pages\CreatePage;
-use Dashed\DashedPages\Filament\Resources\PageResource\Pages\EditPage;
-use Dashed\DashedPages\Filament\Resources\PageResource\Pages\ListPages;
-use Dashed\DashedPages\Models\Page;
 
 class PageResource extends Resource
 {

@@ -2,9 +2,9 @@
 
 namespace Dashed\DashedPages;
 
-use Filament\PluginServiceProvider;
 use Dashed\DashedPages\Filament\Resources\PageResource;
 use Dashed\DashedPages\Models\Page;
+use Filament\PluginServiceProvider;
 use Spatie\LaravelPackageTools\Package;
 
 class DashedPagesServiceProvider extends PluginServiceProvider
