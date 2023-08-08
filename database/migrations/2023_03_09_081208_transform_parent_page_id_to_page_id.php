@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('dashed__pages', function (Blueprint $table) {
-            $table->dropForeign('qcommerce__pages_parent_page_id_foreign');
+            $table->dropForeign('dashed__pages_parent_page_id_foreign');
             $table->renameColumn('parent_page_id', 'parent_id');
         });
         Schema::table('dashed__pages', function (Blueprint $table) {

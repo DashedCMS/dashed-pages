@@ -26,17 +26,11 @@ class Page extends Model
         'content',
     ];
 
-    protected $dates = [
-        'start_date',
-        'end_date',
-        'created_at',
-        'updated_at',
-        'deleted_at',
-    ];
-
     public $casts = [
         'content' => 'array',
         'site_ids' => 'array',
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
     ];
 
     public $with = [
