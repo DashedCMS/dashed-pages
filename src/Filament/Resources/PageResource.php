@@ -2,7 +2,6 @@
 
 namespace Dashed\DashedPages\Filament\Resources;
 
-use Dashed\DashedCore\Classes\QueryHelpers\QueryHelper;
 use Dashed\DashedCore\Classes\QueryHelpers\SearchQuery;
 use Dashed\DashedCore\Filament\Concerns\HasCustomBlocksTab;
 use Dashed\DashedCore\Filament\Concerns\HasVisitableTab;
