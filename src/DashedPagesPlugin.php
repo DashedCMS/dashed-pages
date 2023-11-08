@@ -2,9 +2,9 @@
 
 namespace Dashed\DashedPages;
 
-use Filament\Panel;
-use Filament\Contracts\Plugin;
 use Dashed\DashedPages\Filament\Resources\PageResource;
+use Filament\Contracts\Plugin;
+use Filament\Panel;
 
 class DashedPagesPlugin implements Plugin
 {
