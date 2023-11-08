@@ -2,29 +2,33 @@
 
 namespace Dashed\DashedPages\Filament\Resources;
 
-use Closure;
-use Illuminate\Support\Str;
-use Filament\Resources\Form;
-use Filament\Resources\Table;
-use Filament\Resources\Resource;
-use Dashed\DashedPages\Models\Page;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Builder;
-use Filament\Forms\Components\Section;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Tables\Filters\TrashedFilter;
-use Filament\Resources\Concerns\Translatable;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Actions\RestoreBulkAction;
-use Filament\Tables\Actions\ForceDeleteBulkAction;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Dashed\DashedCore\Filament\Concerns\HasVisitableTab;
+use Dashed\DashedCore\Classes\QueryHelpers\QueryHelper;
+use Dashed\DashedCore\Classes\QueryHelpers\SearchQuery;
 use Dashed\DashedCore\Filament\Concerns\HasCustomBlocksTab;
+use Dashed\DashedCore\Filament\Concerns\HasVisitableTab;
+use Dashed\DashedPages\Filament\Resources\PageResource\Pages\CreatePage;
 use Dashed\DashedPages\Filament\Resources\PageResource\Pages\EditPage;
 use Dashed\DashedPages\Filament\Resources\PageResource\Pages\ListPages;
-use Dashed\DashedPages\Filament\Resources\PageResource\Pages\CreatePage;
+use Dashed\DashedPages\Models\Page;
+use Filament\Forms\Components\Builder;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Form;
+use Filament\Forms\Set;
+use Filament\Resources\Concerns\Translatable;
+use Filament\Resources\Resource;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ForceDeleteBulkAction;
+use Filament\Tables\Actions\RestoreBulkAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TrashedFilter;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class PageResource extends Resource
 {
@@ -62,119 +66,41 @@ class PageResource extends Resource
     {
         return $form
             ->schema([
-                Grid::make([
-                    'default' => 1,
-                    'sm' => 1,
-                    'md' => 1,
-                    'lg' => 1,
-                    'xl' => 6,
-                    '2xl' => 6,
-                ])->schema([
-                    Section::make('Content')
-                        ->schema(array_merge([
-                            TextInput::make('name')
-                                ->label('Name')
-                                ->required()
-                                ->rules([
-                                    'max:255',
-                                ])
-                                ->reactive()
-                                ->afterStateUpdated(function (Closure $set, $state, $livewire) {
-                                    if ($livewire instanceof CreatePage) {
-                                        $set('slug', Str::slug($state));
-                                    }
-                                })
-                                ->columnSpan([
-                                    'default' => 2,
-                                    'sm' => 2,
-                                    'md' => 2,
-                                    'lg' => 2,
-                                    'xl' => 1,
-                                    '2xl' => 1,
-                                ]),
-                            TextInput::make('slug')
-                                ->label('Slug')
-                                ->unique('dashed__pages', 'slug', fn ($record) => $record)
-                                ->helperText('Laat leeg om automatisch te laten genereren')
-                                ->required()
-                                ->rules([
-                                    'max:255',
-                                ])
-                                ->columnSpan([
-                                    'default' => 2,
-                                    'sm' => 2,
-                                    'md' => 2,
-                                    'lg' => 2,
-                                    'xl' => 1,
-                                    '2xl' => 1,
-                                ]),
-                            Builder::make('content')
-                                ->blocks(cms()->builder('blocks'))
-                                ->withBlockLabels()
-                                ->cloneable()
-                                ->columnSpan(2),
-                        ], static::customBlocksTab(cms()->builder('pageBlocks'))))
-                        ->columns([
-                            'default' => 1,
-                            'sm' => 1,
-                            'md' => 1,
-                            'lg' => 1,
-                            'xl' => 2,
-                            '2xl' => 2,
-                        ])
-                        ->columnSpan([
-                            'default' => 1,
-                            'sm' => 1,
-                            'md' => 1,
-                            'lg' => 1,
-                            'xl' => 4,
-                            '2xl' => 4,
-                        ]),
-                    Grid::make([
-                        'default' => 1,
-                        'sm' => 1,
-                        'md' => 1,
-                        'lg' => 1,
-                        'xl' => 2,
-                        '2xl' => 2,
-                    ])
-                        ->schema([
-                            Section::make('Globale informatie')
-                                ->schema(array_merge(
-                                    [
-                                    Toggle::make('is_home')
-                                        ->label('Dit is de homepagina'),
-                                ],
-                                    static::publishTab()
-                                ))
-                                ->columnSpan([
-                                    'default' => 1,
-                                    'sm' => 1,
-                                    'md' => 1,
-                                    'lg' => 1,
-                                    'xl' => 2,
-                                    '2xl' => 2,
-                                ]),
-                            Section::make('Meta data')
-                                ->schema(static::metadataTab())
-                                ->columnSpan([
-                                    'default' => 1,
-                                    'sm' => 1,
-                                    'md' => 1,
-                                    'lg' => 1,
-                                    'xl' => 2,
-                                    '2xl' => 2,
-                                ]),
-                        ])
-                        ->columnSpan([
-                            'default' => 1,
-                            'sm' => 1,
-                            'md' => 1,
-                            'lg' => 1,
-                            'xl' => 2,
-                            '2xl' => 2,
-                        ]),
-                ]),
+                Section::make('Content')
+                    ->schema(array_merge([
+                        TextInput::make('name')
+                            ->label('Name')
+                            ->required()
+                            ->maxLength(255)
+                            ->reactive()
+                            ->afterStateUpdated(function (Set $set, $state, $livewire) {
+                                if ($livewire instanceof CreatePage) {
+                                    $set('slug', Str::slug($state));
+                                }
+                            }),
+                        TextInput::make('slug')
+                            ->label('Slug')
+                            ->unique('dashed__pages', 'slug', fn ($record) => $record)
+                            ->helperText('Laat leeg om automatisch te laten genereren')
+                            ->required()
+                            ->maxLength(255),
+                        Builder::make('content')
+                            ->blocks(cms()->builder('blocks'))
+                            ->blockLabels()
+                            ->cloneable()
+                        ->columnSpanFull(),
+                    ], static::customBlocksTab(cms()->builder('pageBlocks'))))
+                ->columns(2),
+                Section::make('Globale informatie')
+                    ->schema(array_merge(
+                        [
+                            Toggle::make('is_home')
+                                ->label('Dit is de homepagina'),
+                        ],
+                        static::publishTab()
+                    )),
+                Section::make('Meta data')
+                    ->schema(static::metadataTab()),
             ]);
     }
 
@@ -185,19 +111,22 @@ class PageResource extends Resource
                 TextColumn::make('name')
                     ->label('Naam')
                     ->sortable()
-                    ->searchable([
-                        'name',
-                        'slug',
-                        'content',
-                    ]),
+                    ->searchable(query: SearchQuery::make()),
             ], static::visitableTableColumns()))
             ->filters([
                 TrashedFilter::make(),
             ])
             ->bulkActions([
-                DeleteBulkAction::make(),
-                RestoreBulkAction::make(),
-                ForceDeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                    RestoreBulkAction::make(),
+                    ForceDeleteBulkAction::make(),
+                ]),
+            ])
+            ->actions([
+                EditAction::make()
+                    ->button(),
+                DeleteAction::make(),
             ]);
     }
 

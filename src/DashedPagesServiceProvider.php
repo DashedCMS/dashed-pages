@@ -3,11 +3,10 @@
 namespace Dashed\DashedPages;
 
 use Dashed\DashedPages\Models\Page;
-use Filament\PluginServiceProvider;
 use Spatie\LaravelPackageTools\Package;
-use Dashed\DashedPages\Filament\Resources\PageResource;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class DashedPagesServiceProvider extends PluginServiceProvider
+class DashedPagesServiceProvider extends PackageServiceProvider
 {
     public static string $name = 'dashed-pages';
 
@@ -31,12 +30,5 @@ class DashedPagesServiceProvider extends PluginServiceProvider
 
         $package
             ->name('dashed-pages');
-    }
-
-    protected function getResources(): array
-    {
-        return array_merge(parent::getResources(), [
-            PageResource::class,
-        ]);
     }
 }
