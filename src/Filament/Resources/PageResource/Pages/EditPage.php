@@ -2,15 +2,17 @@
 
 namespace Dashed\DashedPages\Filament\Resources\PageResource\Pages;
 
-use Dashed\DashedCore\Classes\Locales;
-use Dashed\DashedCore\Classes\Sites;
-use Dashed\DashedCore\Models\Redirect;
-use Dashed\DashedPages\Filament\Resources\PageResource;
-use Dashed\DashedPages\Models\Page;
-use Filament\Pages\Actions\Action;
-use Filament\Resources\Pages\EditRecord;
-use Filament\Resources\Pages\EditRecord\Concerns\Translatable;
 use Illuminate\Support\Str;
+use Filament\Actions\Action;
+use Filament\Actions\DeleteAction;
+use Dashed\DashedPages\Models\Page;
+use Dashed\DashedCore\Classes\Sites;
+use Filament\Actions\LocaleSwitcher;
+use Dashed\DashedCore\Classes\Locales;
+use Dashed\DashedCore\Models\Redirect;
+use Filament\Resources\Pages\EditRecord;
+use Dashed\DashedPages\Filament\Resources\PageResource;
+use Filament\Resources\Pages\EditRecord\Concerns\Translatable;
 
 class EditPage extends EditRecord
 {
@@ -20,7 +22,7 @@ class EditPage extends EditRecord
 
     protected function getActions(): array
     {
-        return array_merge(parent::getActions(), [
+        return [
             Action::make('view_page')
                 ->button()
                 ->label('Bekijk pagina')
@@ -29,8 +31,9 @@ class EditPage extends EditRecord
             Action::make('Dupliceer pagina')
                 ->action('duplicatePage')
                 ->color('warning'),
-            $this->getActiveFormLocaleSelectAction(),
-        ]);
+            DeleteAction::make(),
+            LocaleSwitcher::make(),
+        ];
     }
 
     public function duplicatePage()
@@ -57,24 +60,20 @@ class EditPage extends EditRecord
             $newMetaData->save();
         }
 
-        return redirect(route('filament.resources.pages.edit', [$newPage]));
+        return redirect(route('filament.dashed.resources.pages.edit', [$newPage]));
     }
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $data['slug'] = Str::slug($data['slug'] ?: $data['name']);
 
-        while (Page::where('id', '!=', $this->record->id)->where('slug->' . $this->activeFormLocale, $data['slug'])->count()) {
+        while (Page::where('id', '!=', $this->record->id)->where('slug->' . $this->activeLocale, $data['slug'])->count()) {
             $data['slug'] .= Str::random(1);
         }
 
         $data['site_ids'] = $data['site_ids'] ?? [Sites::getFirstSite()['id']];
 
-        //        $content = $data['content'];
-        //        $data['content'] = $this->record->content;
-        //        $data['content'][$this->activeFormLocale] = $content;
-
-        Redirect::handleSlugChange($this->record->getTranslation('slug', $this->activeFormLocale), $data['slug']);
+        Redirect::handleSlugChange($this->record->getTranslation('slug', $this->activeLocale), $data['slug']);
 
         return $data;
     }
