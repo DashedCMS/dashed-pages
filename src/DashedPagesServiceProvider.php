@@ -2,10 +2,10 @@
 
 namespace Dashed\DashedPages;
 
-use Dashed\DashedPages\Filament\Resources\PageResource;
 use Dashed\DashedPages\Models\Page;
 use Filament\PluginServiceProvider;
 use Spatie\LaravelPackageTools\Package;
+use Dashed\DashedPages\Filament\Resources\PageResource;
 
 class DashedPagesServiceProvider extends PluginServiceProvider
 {

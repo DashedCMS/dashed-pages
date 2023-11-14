@@ -3,28 +3,28 @@
 namespace Dashed\DashedPages\Filament\Resources;
 
 use Closure;
-use Dashed\DashedCore\Filament\Concerns\HasCustomBlocksTab;
+use Illuminate\Support\Str;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
+use Filament\Resources\Resource;
+use Dashed\DashedPages\Models\Page;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Builder;
+use Filament\Forms\Components\Section;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Filters\TrashedFilter;
+use Filament\Resources\Concerns\Translatable;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\RestoreBulkAction;
+use Filament\Tables\Actions\ForceDeleteBulkAction;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Dashed\DashedCore\Filament\Concerns\HasVisitableTab;
-use Dashed\DashedPages\Filament\Resources\PageResource\Pages\CreatePage;
+use Dashed\DashedCore\Filament\Concerns\HasCustomBlocksTab;
 use Dashed\DashedPages\Filament\Resources\PageResource\Pages\EditPage;
 use Dashed\DashedPages\Filament\Resources\PageResource\Pages\ListPages;
-use Dashed\DashedPages\Models\Page;
-use Filament\Forms\Components\Builder;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
-use Filament\Resources\Concerns\Translatable;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Actions\ForceDeleteBulkAction;
-use Filament\Tables\Actions\RestoreBulkAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Filters\TrashedFilter;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Str;
+use Dashed\DashedPages\Filament\Resources\PageResource\Pages\CreatePage;
 
 class PageResource extends Resource
 {
