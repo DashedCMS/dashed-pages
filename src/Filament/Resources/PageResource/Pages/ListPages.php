@@ -2,8 +2,8 @@
 
 namespace Dashed\DashedPages\Filament\Resources\PageResource\Pages;
 
-use Filament\Resources\Pages\ListRecords;
 use Dashed\DashedPages\Filament\Resources\PageResource;
+use Filament\Resources\Pages\ListRecords;
 use Filament\Resources\Pages\ListRecords\Concerns\Translatable;
 
 class ListPages extends ListRecords
