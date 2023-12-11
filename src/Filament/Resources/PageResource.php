@@ -82,7 +82,6 @@ class PageResource extends Resource
                             ->label('Slug')
                             ->unique('dashed__pages', 'slug', fn ($record) => $record)
                             ->helperText('Laat leeg om automatisch te laten genereren')
-                            ->required()
                             ->maxLength(255),
                         Builder::make('content')
                             ->blocks(cms()->builder('blocks'))
