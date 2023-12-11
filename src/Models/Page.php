@@ -3,13 +3,13 @@
 namespace Dashed\DashedPages\Models;
 
 use Dashed\DashedCore\Classes\Sites;
-use Dashed\DashedCore\Models\Concerns\HasCustomBlocks;
-use Dashed\DashedCore\Models\Concerns\IsVisitable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Dashed\DashedCore\Models\Concerns\IsVisitable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Dashed\DashedCore\Models\Concerns\HasCustomBlocks;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class Page extends Model
