@@ -2,32 +2,32 @@
 
 namespace Dashed\DashedPages\Filament\Resources;
 
-use Filament\Forms\Set;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Illuminate\Support\Str;
-use Filament\Resources\Resource;
-use Dashed\DashedPages\Models\Page;
-use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Builder;
-use Filament\Forms\Components\Section;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Tables\Actions\DeleteAction;
-use Filament\Tables\Filters\TrashedFilter;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Resources\Concerns\Translatable;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Actions\RestoreBulkAction;
-use Filament\Tables\Actions\ForceDeleteBulkAction;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Dashed\DashedCore\Classes\QueryHelpers\SearchQuery;
-use Dashed\DashedCore\Filament\Concerns\HasVisitableTab;
 use Dashed\DashedCore\Filament\Concerns\HasCustomBlocksTab;
+use Dashed\DashedCore\Filament\Concerns\HasVisitableTab;
+use Dashed\DashedPages\Filament\Resources\PageResource\Pages\CreatePage;
 use Dashed\DashedPages\Filament\Resources\PageResource\Pages\EditPage;
 use Dashed\DashedPages\Filament\Resources\PageResource\Pages\ListPages;
-use Dashed\DashedPages\Filament\Resources\PageResource\Pages\CreatePage;
+use Dashed\DashedPages\Models\Page;
+use Filament\Forms\Components\Builder;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Form;
+use Filament\Forms\Set;
+use Filament\Resources\Concerns\Translatable;
+use Filament\Resources\Resource;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ForceDeleteBulkAction;
+use Filament\Tables\Actions\RestoreBulkAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TrashedFilter;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class PageResource extends Resource
 {
