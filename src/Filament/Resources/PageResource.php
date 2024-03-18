@@ -2,11 +2,8 @@
 
 namespace Dashed\DashedPages\Filament\Resources;
 
-<<<<<<< HEAD
 use Dashed\DashedCore\Classes\QueryHelpers\SearchQuery;
-=======
 use Closure;
->>>>>>> 9ba0b63e5c9eb29bbb5f73a71e0a9ab509f521eb
 use Dashed\DashedCore\Filament\Concerns\HasCustomBlocksTab;
 use Dashed\DashedCore\Filament\Concerns\HasVisitableTab;
 use Dashed\DashedPages\Filament\Resources\PageResource\Pages\CreatePage;
@@ -14,7 +11,6 @@ use Dashed\DashedPages\Filament\Resources\PageResource\Pages\EditPage;
 use Dashed\DashedPages\Filament\Resources\PageResource\Pages\ListPages;
 use Dashed\DashedPages\Models\Page;
 use Filament\Forms\Components\Builder;
-<<<<<<< HEAD
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -26,25 +22,12 @@ use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
-=======
 use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
-use Filament\Resources\Concerns\Translatable;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
-use Filament\Tables\Actions\DeleteBulkAction;
->>>>>>> 9ba0b63e5c9eb29bbb5f73a71e0a9ab509f521eb
 use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Filament\Tables\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
-<<<<<<< HEAD
 use Filament\Tables\Table;
-=======
->>>>>>> 9ba0b63e5c9eb29bbb5f73a71e0a9ab509f521eb
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 

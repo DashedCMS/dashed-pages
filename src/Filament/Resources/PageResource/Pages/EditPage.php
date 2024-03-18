@@ -7,13 +7,9 @@ use Dashed\DashedCore\Classes\Sites;
 use Dashed\DashedCore\Models\Redirect;
 use Dashed\DashedPages\Filament\Resources\PageResource;
 use Dashed\DashedPages\Models\Page;
-<<<<<<< HEAD
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\LocaleSwitcher;
-=======
-use Filament\Pages\Actions\Action;
->>>>>>> 9ba0b63e5c9eb29bbb5f73a71e0a9ab509f521eb
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\EditRecord\Concerns\Translatable;
 use Illuminate\Support\Str;
