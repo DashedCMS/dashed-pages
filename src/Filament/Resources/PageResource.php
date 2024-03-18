@@ -3,7 +3,6 @@
 namespace Dashed\DashedPages\Filament\Resources;
 
 use Dashed\DashedCore\Classes\QueryHelpers\SearchQuery;
-use Closure;
 use Dashed\DashedCore\Filament\Concerns\HasCustomBlocksTab;
 use Dashed\DashedCore\Filament\Concerns\HasVisitableTab;
 use Dashed\DashedPages\Filament\Resources\PageResource\Pages\CreatePage;
@@ -22,7 +21,6 @@ use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
-use Filament\Forms\Components\Grid;
 use Filament\Tables\Actions\ForceDeleteBulkAction;
 use Filament\Tables\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\TextColumn;
