@@ -2,7 +2,6 @@
 
 namespace Dashed\DashedPages;
 
-use Dashed\DashedPages\Filament\Resources\PageResource;
 use Dashed\DashedPages\Models\Page;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
