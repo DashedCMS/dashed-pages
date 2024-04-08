@@ -5,6 +5,7 @@ namespace Dashed\DashedPages\Models;
 use Dashed\DashedCore\Classes\Sites;
 use Dashed\DashedCore\Models\Concerns\HasCustomBlocks;
 use Dashed\DashedCore\Models\Concerns\IsVisitable;
+use Dashed\Seo\SeoInterface;
 use Dashed\Seo\Traits\HasSeoScore;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-class Page extends Model
+class Page extends Model implements SeoInterface
 {
     use SoftDeletes;
     use IsVisitable;
@@ -115,5 +116,10 @@ class Page extends Model
                 return 'pageNotFound';
             }
         }
+    }
+
+    public function getUrlAttribute(): ?string
+    {
+        $this->getUrl();
     }
 }
