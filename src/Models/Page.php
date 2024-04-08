@@ -14,12 +14,11 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-class Page extends Model implements SeoInterface
+class Page extends Model
 {
     use SoftDeletes;
     use IsVisitable;
     use HasCustomBlocks;
-    use HasSeoScore;
 
     protected $table = 'dashed__pages';
 
@@ -116,10 +115,5 @@ class Page extends Model implements SeoInterface
                 return 'pageNotFound';
             }
         }
-    }
-
-    public function getUrlAttribute(): ?string
-    {
-        $this->getUrl();
     }
 }
