@@ -5,6 +5,7 @@ namespace Dashed\DashedPages\Models;
 use Dashed\DashedCore\Classes\Sites;
 use Dashed\DashedCore\Models\Concerns\HasCustomBlocks;
 use Dashed\DashedCore\Models\Concerns\IsVisitable;
+use Dashed\Seo\Jobs\ScanSpecificResult;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -47,6 +48,10 @@ class Page extends Model
             Cache::tags(['pages', "page-$page->id"])->flush();
         });
 
+        static::saved(function ($page) {
+            ScanSpecificResult::dispatch($page);
+        });
+
         static::deleted(function ($page) {
             Cache::tags(['pages', "page-$page->id"])->flush();
         });
@@ -76,7 +81,7 @@ class Page extends Model
             foreach ($slugParts as $slugPart) {
                 $page = Page::publicShowable()->isNotHome()->where('slug->' . app()->getLocale(), $slugPart)->where('parent_id', $parentPageId)->first();
                 $parentPageId = $page?->id;
-                if (! $page) {
+                if (!$page) {
                     return;
                 }
             }
