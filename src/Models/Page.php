@@ -5,6 +5,7 @@ namespace Dashed\DashedPages\Models;
 use Dashed\DashedCore\Classes\Sites;
 use Dashed\DashedCore\Models\Concerns\HasCustomBlocks;
 use Dashed\DashedCore\Models\Concerns\IsVisitable;
+use Dashed\Seo\Traits\HasSeoScore;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,6 +18,7 @@ class Page extends Model
     use SoftDeletes;
     use IsVisitable;
     use HasCustomBlocks;
+    use HasSeoScore;
 
     protected $table = 'dashed__pages';
 
