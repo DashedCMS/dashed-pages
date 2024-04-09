@@ -48,10 +48,6 @@ class Page extends Model
             Cache::tags(['pages', "page-$page->id"])->flush();
         });
 
-        static::saved(function ($page) {
-            ScanSpecificResult::dispatch($page);
-        });
-
         static::deleted(function ($page) {
             Cache::tags(['pages', "page-$page->id"])->flush();
         });
