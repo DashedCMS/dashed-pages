@@ -5,7 +5,6 @@ namespace Dashed\DashedPages\Models;
 use Dashed\DashedCore\Classes\Sites;
 use Dashed\DashedCore\Models\Concerns\HasCustomBlocks;
 use Dashed\DashedCore\Models\Concerns\IsVisitable;
-use Dashed\Seo\Jobs\ScanSpecificResult;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
