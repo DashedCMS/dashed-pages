@@ -74,7 +74,7 @@ class Page extends Model
             $slugParts = explode('/', $slug);
             $parentPageId = null;
             foreach ($slugParts as $slugPart) {
-                $page = Page::publicShowable()->isNotHome()->where('slug->' . app()->getLocale(), $slugPart)->where('parent_id', $parentPageId)->first();
+                $page = Page::publicShowable()->isNotHome()->slug($slugPart)->where('parent_id', $parentPageId)->first();
                 $parentPageId = $page?->id;
                 if (! $page) {
                     return;
