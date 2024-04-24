@@ -13,6 +13,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\LocaleSwitcher;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\EditRecord\Concerns\Translatable;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 
 class EditPage extends EditRecord
@@ -75,8 +76,11 @@ class EditPage extends EditRecord
 
         $data['site_ids'] = $data['site_ids'] ?? [Sites::getFirstSite()['id']];
 
-        Redirect::handleSlugChange($this->record->getTranslation('slug', $this->activeLocale), $data['slug']);
-
         return $data;
+    }
+
+    public function beforeSave()
+    {
+        Redirect::handleSlugChangeForFilamentModel($this->record, $this->activeLocale, $this->data['slug']);
     }
 }
