@@ -13,7 +13,6 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\LocaleSwitcher;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\EditRecord\Concerns\Translatable;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 
 class EditPage extends EditRecord
