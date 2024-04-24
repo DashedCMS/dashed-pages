@@ -78,9 +78,4 @@ class EditPage extends EditRecord
 
         return $data;
     }
-
-    public function beforeSave()
-    {
-        Redirect::handleSlugChangeForFilamentModel($this->record, $this->activeLocale, $this->data['slug']);
-    }
 }
