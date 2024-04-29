@@ -28,33 +28,6 @@ class EditPage extends EditRecord
         return self::CMSActions();
     }
 
-    public function duplicatePage()
-    {
-        $newPage = $this->record->replicate();
-        foreach (Locales::getLocales() as $locale) {
-            $newPage->setTranslation('slug', $locale['id'], $newPage->getTranslation('slug', $locale['id']));
-            while (Page::where('slug->' . $locale['id'], $newPage->getTranslation('slug', $locale['id']))->count()) {
-                $newPage->setTranslation('slug', $locale['id'], $newPage->getTranslation('slug', $locale['id']) . Str::random(1));
-            }
-        }
-
-        $newPage->save();
-
-        if ($this->record->customBlocks) {
-            $newCustomBlock = $this->record->customBlocks->replicate();
-            $newCustomBlock->blockable_id = $newPage->id;
-            $newCustomBlock->save();
-        }
-
-        if ($this->record->metaData) {
-            $newMetaData = $this->record->metaData->replicate();
-            $newMetaData->metadatable_id = $newPage->id;
-            $newMetaData->save();
-        }
-
-        return redirect(route('filament.dashed.resources.pages.edit', [$newPage]));
-    }
-
     protected function mutateFormDataBeforeSave(array $data): array
     {
         $data['slug'] = Str::slug($data['slug'] ?: $data['name']);
