@@ -2,16 +2,10 @@
 
 namespace Dashed\DashedPages\Filament\Resources\PageResource\Pages;
 
-use Dashed\DashedCore\Classes\Locales;
 use Dashed\DashedCore\Classes\Sites;
-use Dashed\DashedCore\Filament\Actions\ShowSEOScoreAction;
 use Dashed\DashedCore\Filament\Concerns\HasEditableCMSActions;
-use Dashed\DashedCore\Models\Redirect;
 use Dashed\DashedPages\Filament\Resources\PageResource;
 use Dashed\DashedPages\Models\Page;
-use Filament\Actions\Action;
-use Filament\Actions\DeleteAction;
-use Filament\Actions\LocaleSwitcher;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\EditRecord\Concerns\Translatable;
 use Illuminate\Support\Str;
