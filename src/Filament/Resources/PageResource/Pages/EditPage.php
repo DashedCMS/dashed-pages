@@ -5,6 +5,7 @@ namespace Dashed\DashedPages\Filament\Resources\PageResource\Pages;
 use Dashed\DashedCore\Classes\Locales;
 use Dashed\DashedCore\Classes\Sites;
 use Dashed\DashedCore\Filament\Actions\ShowSEOScoreAction;
+use Dashed\DashedCore\Filament\Concerns\HasEditableCMSActions;
 use Dashed\DashedCore\Models\Redirect;
 use Dashed\DashedPages\Filament\Resources\PageResource;
 use Dashed\DashedPages\Models\Page;
@@ -18,24 +19,13 @@ use Illuminate\Support\Str;
 class EditPage extends EditRecord
 {
     use Translatable;
+    use HasEditableCMSActions;
 
     protected static string $resource = PageResource::class;
 
     protected function getActions(): array
     {
-        return [
-            Action::make('view_page')
-                ->button()
-                ->label('Bekijk pagina')
-                ->url($this->record->getUrl())
-                ->openUrlInNewTab(),
-            Action::make('Dupliceer pagina')
-                ->action('duplicatePage')
-                ->color('warning'),
-            DeleteAction::make(),
-            ShowSEOScoreAction::make(),
-            LocaleSwitcher::make(),
-        ];
+        return self::CMSActions();
     }
 
     public function duplicatePage()
