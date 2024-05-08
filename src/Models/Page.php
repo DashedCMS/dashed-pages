@@ -37,21 +37,6 @@ class Page extends Model
         'parent',
     ];
 
-    protected static function booted()
-    {
-        static::created(function ($page) {
-            Cache::tags(['pages', "page-$page->id"])->flush();
-        });
-
-        static::updated(function ($page) {
-            Cache::tags(['pages', "page-$page->id"])->flush();
-        });
-
-        static::deleted(function ($page) {
-            Cache::tags(['pages', "page-$page->id"])->flush();
-        });
-    }
-
     public function parent(): BelongsTo
     {
         return $this->belongsTo(self::class);
