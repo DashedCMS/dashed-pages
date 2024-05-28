@@ -3,14 +3,12 @@
 namespace Dashed\DashedPages\Filament\Resources;
 
 use Dashed\DashedCore\Classes\QueryHelpers\SearchQuery;
-use Dashed\DashedCore\CMSManager;
 use Dashed\DashedCore\Filament\Concerns\HasCustomBlocksTab;
 use Dashed\DashedCore\Filament\Concerns\HasVisitableTab;
 use Dashed\DashedPages\Filament\Resources\PageResource\Pages\CreatePage;
 use Dashed\DashedPages\Filament\Resources\PageResource\Pages\EditPage;
 use Dashed\DashedPages\Filament\Resources\PageResource\Pages\ListPages;
 use Dashed\DashedPages\Models\Page;
-use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -81,7 +79,7 @@ class PageResource extends Resource
                             }),
                         TextInput::make('slug')
                             ->label('Slug')
-                            ->unique('dashed__pages', 'slug', fn($record) => $record)
+                            ->unique('dashed__pages', 'slug', fn ($record) => $record)
                             ->helperText('Laat leeg om automatisch te laten genereren')
                             ->maxLength(255),
                         cms()->getFilamentBuilderBlock(),
