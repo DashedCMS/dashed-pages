@@ -3,6 +3,7 @@
 namespace Dashed\DashedPages\Filament\Resources;
 
 use Dashed\DashedCore\Classes\QueryHelpers\SearchQuery;
+use Dashed\DashedCore\CMSManager;
 use Dashed\DashedCore\Filament\Concerns\HasCustomBlocksTab;
 use Dashed\DashedCore\Filament\Concerns\HasVisitableTab;
 use Dashed\DashedPages\Filament\Resources\PageResource\Pages\CreatePage;
@@ -80,16 +81,12 @@ class PageResource extends Resource
                             }),
                         TextInput::make('slug')
                             ->label('Slug')
-                            ->unique('dashed__pages', 'slug', fn ($record) => $record)
+                            ->unique('dashed__pages', 'slug', fn($record) => $record)
                             ->helperText('Laat leeg om automatisch te laten genereren')
                             ->maxLength(255),
-                        Builder::make('content')
-                            ->blocks(cms()->builder('blocks'))
-                            ->blockLabels()
-                            ->cloneable()
-                        ->columnSpanFull(),
+                        cms()->getFilamentBuilderBlock(),
                     ], static::customBlocksTab(cms()->builder('pageBlocks'))))
-                ->columns(2),
+                    ->columns(2),
                 Section::make('Globale informatie')
                     ->schema(array_merge(
                         [
