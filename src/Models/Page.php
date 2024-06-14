@@ -90,6 +90,7 @@ class Page extends Model
                 seo()->metaData('alternateUrls', $alternateUrls);
 
                 View::share('page', $page);
+                View::share('model', $page);
                 View::share('breadcrumbs', $page->breadcrumbs());
 
                 return view('dashed.pages.show');
