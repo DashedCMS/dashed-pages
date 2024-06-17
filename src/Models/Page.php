@@ -5,6 +5,7 @@ namespace Dashed\DashedPages\Models;
 use Dashed\DashedCore\Classes\Sites;
 use Dashed\DashedCore\Models\Concerns\HasCustomBlocks;
 use Dashed\DashedCore\Models\Concerns\IsVisitable;
+use Dashed\DashedCore\Models\Customsetting;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -69,7 +70,7 @@ class Page extends Model
         }
 
         if ($page) {
-            if (View::exists('dashed.pages.show')) {
+            if (View::exists(Customsetting::get('site_theme', null, 'dashed') . '.pages.show')) {
                 seo()->metaData('metaTitle', $page->metadata && $page->metadata->title ? $page->metadata->title : $page->name);
                 seo()->metaData('metaDescription', $page->metadata->description ?? '');
                 if ($page->metadata && $page->metadata->image) {
@@ -93,7 +94,7 @@ class Page extends Model
                 View::share('model', $page);
                 View::share('breadcrumbs', $page->breadcrumbs());
 
-                return view('dashed.pages.show');
+                return view(Customsetting::get('site_theme', null, 'dashed') . '.pages.show');
             } else {
                 return 'pageNotFound';
             }
