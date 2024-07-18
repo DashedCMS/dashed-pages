@@ -90,18 +90,9 @@ class Page extends Model
                 app()->setLocale($correctLocale);
                 seo()->metaData('alternateUrls', $alternateUrls);
 
-                //                view()->share('page', $page);
-                //                view()->share('model', $page);
-                //                view()->share('breadcrumbs', $page->breadcrumbs());
-
-                return [
-                    'view' => Customsetting::get('site_theme', null, 'dashed') . '.pages.show',
-                    'parameters' => [
-                        'page' => $page,
-                        'model' => $page,
-                        'breadcrumbs' => $page->breadcrumbs(),
-                    ],
-                ];
+                View::share('page', $page);
+                View::share('model', $page);
+                View::share('breadcrumbs', $page->breadcrumbs());
 
                 return view(Customsetting::get('site_theme', null, 'dashed') . '.pages.show');
             } else {
