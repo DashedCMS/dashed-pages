@@ -61,7 +61,7 @@ class Page extends Model
             foreach ($slugParts as $slugPart) {
                 $page = Page::publicShowable()->isNotHome()->slug($slugPart)->where('parent_id', $parentPageId)->first();
                 $parentPageId = $page?->id;
-                if (!$page) {
+                if (! $page) {
                     return;
                 }
             }
@@ -90,9 +90,9 @@ class Page extends Model
                 app()->setLocale($correctLocale);
                 seo()->metaData('alternateUrls', $alternateUrls);
 
-//                view()->share('page', $page);
-//                view()->share('model', $page);
-//                view()->share('breadcrumbs', $page->breadcrumbs());
+                //                view()->share('page', $page);
+                //                view()->share('model', $page);
+                //                view()->share('breadcrumbs', $page->breadcrumbs());
 
                 return [
                     'view' => Customsetting::get('site_theme', null, 'dashed') . '.pages.show',
@@ -102,6 +102,7 @@ class Page extends Model
                         'breadcrumbs' => $page->breadcrumbs(),
                     ],
                 ];
+
                 return view(Customsetting::get('site_theme', null, 'dashed') . '.pages.show');
             } else {
                 return 'pageNotFound';
