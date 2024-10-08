@@ -16,7 +16,7 @@ class DashedPagesServiceProvider extends PackageServiceProvider
 
         $this->publishes([
             __DIR__ . '/../resources/templates' => resource_path('views/' . env('SITE_THEME', 'dashed')),
-        ], 'dashed-core-templates');
+        ], 'dashed-templates');
 
         cms()->builder(
             'routeModels',
