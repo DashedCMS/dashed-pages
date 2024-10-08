@@ -14,6 +14,10 @@ class DashedPagesServiceProvider extends PackageServiceProvider
     {
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
+        $this->publishes([
+            __DIR__ . '/../resources/templates' => resource_path('views/' . env('SITE_THEME', 'dashed')),
+        ], 'dashed-core-templates');
+
         cms()->builder(
             'routeModels',
             array_merge(cms()->builder('routeModels'), [
