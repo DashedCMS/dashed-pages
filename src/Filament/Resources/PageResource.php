@@ -42,6 +42,7 @@ class PageResource extends Resource
     protected static ?string $navigationLabel = 'Pagina\'s';
     protected static ?string $label = 'Pagina';
     protected static ?string $pluralLabel = 'Pagina\'s';
+    protected static ?int $navigationSort = 1;
 
     public static function getGloballySearchableAttributes(): array
     {
