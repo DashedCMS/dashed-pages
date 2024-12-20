@@ -84,7 +84,7 @@ class PageResource extends Resource
                             ->helperText('Laat leeg om automatisch te laten genereren')
                             ->maxLength(255),
                         cms()->getFilamentBuilderBlock(),
-                    ], static::customBlocksTab(cms()->builder('pageBlocks'))))
+                    ], static::customBlocksTab('pageBlocks')))
                     ->columns(2),
                 Section::make('Globale informatie')
                     ->schema(array_merge(
