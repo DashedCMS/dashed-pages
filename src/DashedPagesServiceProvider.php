@@ -2,6 +2,7 @@
 
 namespace Dashed\DashedPages;
 
+use Dashed\DashedCore\DashedCorePlugin;
 use Dashed\DashedPages\Models\Page;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -32,5 +33,9 @@ class DashedPagesServiceProvider extends PackageServiceProvider
 
         $package
             ->name('dashed-pages');
+
+        cms()->builder('plugins', [
+            new DashedPagesPlugin(),
+        ]);
     }
 }
