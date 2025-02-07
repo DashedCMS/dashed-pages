@@ -18,17 +18,7 @@ class DashedPagesServiceProvider extends PackageServiceProvider
             __DIR__ . '/../resources/templates' => resource_path('views/' . env('SITE_THEME', 'dashed')),
         ], 'dashed-templates');
 
-        cms()->builder(
-            'routeModels',
-            array_merge(cms()->builder('routeModels'), [
-                'page' => [
-                    'name' => 'Pagina',
-                    'pluralName' => 'Pagina\'s',
-                    'class' => Page::class,
-                    'nameField' => 'name',
-                ],
-            ])
-        );
+        cms()->registerRouteModel(Page::class, 'Pagina', 'Pagina\'s');
 
         $package
             ->name('dashed-pages');
