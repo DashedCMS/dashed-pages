@@ -69,7 +69,7 @@ class Page extends Model
         }
 
         if ($page) {
-            if (View::exists(env('SITE_THEME', 'dashed') . '.pages.show')) {
+            if (View::exists(config('dashed-core.site_theme') . '.pages.show')) {
                 seo()->metaData('metaTitle', $page->metadata && $page->metadata->title ? $page->metadata->title : $page->name);
                 seo()->metaData('metaDescription', $page->metadata->description ?? '');
                 if ($page->metadata && $page->metadata->image) {
@@ -93,7 +93,7 @@ class Page extends Model
                 View::share('model', $page);
                 View::share('breadcrumbs', $page->breadcrumbs());
 
-                return view(env('SITE_THEME', 'dashed') . '.pages.show');
+                return view(config('dashed-core.site_theme') . '.pages.show');
             } else {
                 return 'pageNotFound';
             }
