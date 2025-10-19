@@ -2,28 +2,30 @@
 
 namespace Dashed\DashedPages\Filament\Resources;
 
-use Filament\Forms\Set;
-use Filament\Forms\Form;
+use UnitEnum;
+use BackedEnum;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use Filament\Schemas\Schema;
+use Filament\Actions\EditAction;
 use Filament\Resources\Resource;
+use Filament\Actions\DeleteAction;
 use Dashed\DashedPages\Models\Page;
+use Filament\Actions\BulkActionGroup;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Section;
-use Filament\Tables\Actions\EditAction;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Filament\Tables\Actions\DeleteAction;
+use Filament\Schemas\Components\Section;
 use Filament\Tables\Filters\TrashedFilter;
-use Filament\Tables\Actions\BulkActionGroup;
-use Filament\Resources\Concerns\Translatable;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Filament\Tables\Actions\RestoreBulkAction;
-use Filament\Tables\Actions\ForceDeleteBulkAction;
+use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Schemas\Components\Utilities\Set;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Dashed\DashedCore\Classes\QueryHelpers\SearchQuery;
 use Dashed\DashedCore\Filament\Concerns\HasVisitableTab;
 use Dashed\DashedCore\Filament\Concerns\HasCustomBlocksTab;
+use LaraZeus\SpatieTranslatable\Resources\Concerns\Translatable;
 use Dashed\DashedPages\Filament\Resources\PageResource\Pages\EditPage;
 use Dashed\DashedPages\Filament\Resources\PageResource\Pages\ListPages;
 use Dashed\DashedPages\Filament\Resources\PageResource\Pages\CreatePage;
@@ -37,8 +39,8 @@ class PageResource extends Resource
     protected static ?string $model = Page::class;
 
     protected static ?string $recordTitleAttribute = 'name';
-    protected static ?string $navigationIcon = 'heroicon-o-book-open';
-    protected static ?string $navigationGroup = 'Content';
+    protected static string | BackedEnum | null $navigationIcon = 'heroicon-o-book-open';
+    protected static string | UnitEnum | null $navigationGroup = 'Content';
     protected static ?string $navigationLabel = 'Pagina\'s';
     protected static ?string $label = 'Pagina';
     protected static ?string $pluralLabel = 'Pagina\'s';
@@ -61,11 +63,11 @@ class PageResource extends Resource
             ]);
     }
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
+        return $schema
             ->schema([
-                Section::make('Content')
+                Section::make('Content')->columnSpanFull()
                     ->schema(array_merge([
                         TextInput::make('name')
                             ->label('Name')
@@ -87,6 +89,7 @@ class PageResource extends Resource
                     ], static::customBlocksTab('pageBlocks')))
                     ->columns(2),
                 Section::make('Globale informatie')
+                    ->columnSpanFull()
                     ->schema(array_merge(
                         [
                             Toggle::make('is_home')
@@ -95,6 +98,7 @@ class PageResource extends Resource
                         static::publishTab()
                     )),
                 Section::make('Meta data')
+                    ->columnSpanFull()
                     ->schema(static::metadataTab()),
             ]);
     }
@@ -111,14 +115,14 @@ class PageResource extends Resource
             ->filters([
                 TrashedFilter::make(),
             ])
-            ->bulkActions([
+            ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                     RestoreBulkAction::make(),
                     ForceDeleteBulkAction::make(),
                 ]),
             ])
-            ->actions([
+            ->recordActions([
                 EditAction::make()
                     ->button(),
                 DeleteAction::make(),
