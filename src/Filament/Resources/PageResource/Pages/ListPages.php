@@ -2,6 +2,7 @@
 
 namespace Dashed\DashedPages\Filament\Resources\PageResource\Pages;
 
+use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 use Dashed\DashedPages\Filament\Resources\PageResource;

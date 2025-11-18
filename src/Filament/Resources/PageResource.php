@@ -2,6 +2,7 @@
 
 namespace Dashed\DashedPages\Filament\Resources;
 
+use Dashed\DashedCore\Classes\Actions\ActionGroups\ToolbarActions;
 use UnitEnum;
 use BackedEnum;
 use Filament\Tables\Table;
@@ -115,13 +116,7 @@ class PageResource extends Resource
             ->filters([
                 TrashedFilter::make(),
             ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    RestoreBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
-                ]),
-            ])
+            ->toolbarActions(ToolbarActions::getActions())
             ->recordActions([
                 EditAction::make()
                     ->button(),
