@@ -3,8 +3,8 @@
 namespace Dashed\DashedPages;
 
 use Dashed\DashedPages\Models\Page;
-use Spatie\LaravelPackageTools\Package;
 use Illuminate\Support\Facades\Gate;
+use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class DashedPagesServiceProvider extends PackageServiceProvider
