@@ -172,6 +172,8 @@ class Page extends Model
         // Shared view data
         View::share('page', $page);
         View::share('model', $page);
+        app()->instance('dashed.current_visitable', $page);
+        request()->attributes->set('dashed.current_visitable', $page);
         View::share('breadcrumbs', $page->breadcrumbs());
 
         return view(config('dashed-core.site_theme', 'dashed') . '.pages.show');
