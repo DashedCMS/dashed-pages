@@ -2,6 +2,11 @@
 
 All notable changes to `dashed-pages` will be documented in this file.
 
+## v4.1.0 - 2026-05-07
+
+### Added
+- "Sorteren"-header-action op de Pages list-page via `Dashed\DashedCore\Filament\Concerns\HasNestableSortingAction`. Pages kunnen nu via slepen genested en geordend worden zonder per-item Edit. Vereist `dashed-core` v4.6.0+.
+
 ## v4.0.5 - 2026-04-27
 
 - Bind het huidige visitable model voor popup-targeting zodat popup-rules kunnen filteren op de live page/model.
