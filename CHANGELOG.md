@@ -2,6 +2,11 @@
 
 All notable changes to `dashed-pages` will be documented in this file.
 
+## v4.1.1 - 2026-05-07
+
+### Fixed
+- Migration toegevoegd die `order`-kolom aan `dashed__pages` toevoegt als die ontbreekt. De Sorteren-actie uit v4.1.0 schreef anders naar een niet-bestaande kolom op installaties waar de pages-tabel uit een tijd dateert vóór de gestandaardiseerde `createTableForVisitableModel` (die `order` standaard meelevert).
+
 ## v4.1.0 - 2026-05-07
 
 ### Added
