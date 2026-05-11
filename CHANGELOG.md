@@ -2,6 +2,11 @@
 
 All notable changes to `dashed-pages` will be documented in this file.
 
+## v4.1.2 - 2026-05-11
+
+### Changed
+- Pint-pass: `new class () extends Migration`-syntax in `2026_05_07_140000_add_order_to_pages` + import-volgorde conform PHP-CS-Fixer profile. Geen gedragsverandering.
+
 ## v4.1.1 - 2026-05-07
 
 ### Fixed
