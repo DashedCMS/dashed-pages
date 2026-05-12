@@ -29,6 +29,8 @@ use Dashed\DashedPages\Filament\Resources\PageResource\Pages\CreatePage;
 
 class PageResource extends Resource
 {
+    use \Dashed\DashedCore\Filament\Concerns\HasLastEditedColumn;
+
     use Translatable;
     use HasVisitableTab;
     use HasCustomBlocksTab;
