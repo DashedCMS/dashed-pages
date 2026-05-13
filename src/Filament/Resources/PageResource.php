@@ -110,7 +110,9 @@ class PageResource extends Resource
                     ->label('Naam')
                     ->sortable()
                     ->searchable(query: SearchQuery::make()),
+                static::lastEditedColumn(),
             ], static::visitableTableColumns()))
+            ->modifyQueryUsing(fn ($query) => static::modifyTableQueryForLastEdited($query))
             ->filters([
                 TrashedFilter::make(),
             ])
