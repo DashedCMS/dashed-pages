@@ -3,10 +3,10 @@
 namespace Dashed\DashedPages\Models;
 
 use Dashed\DashedCore\Classes\Sites;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Dashed\DashedCore\Models\Concerns\IsVisitable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
