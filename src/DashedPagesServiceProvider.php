@@ -52,11 +52,13 @@ MARKDOWN,
             ],
         );
 
-        cms()->registerContentQualityModel(
-            \Dashed\DashedPages\Models\Page::class,
-            \Dashed\DashedPages\Filament\Resources\PageResource::class,
-            'Pagina'
-        );
+        if (method_exists(cms(), 'registerContentQualityModel')) {
+            cms()->registerContentQualityModel(
+                \Dashed\DashedPages\Models\Page::class,
+                \Dashed\DashedPages\Filament\Resources\PageResource::class,
+                'Pagina'
+            );
+        }
     }
 
     public function configurePackage(Package $package): void
