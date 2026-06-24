@@ -51,6 +51,12 @@ MARKDOWN,
                 'Controleer een nieuwe pagina via de voorbeeldweergave voor je hem publiceert.',
             ],
         );
+
+        cms()->registerContentQualityModel(
+            \Dashed\DashedPages\Models\Page::class,
+            \Dashed\DashedPages\Filament\Resources\PageResource::class,
+            'Pagina'
+        );
     }
 
     public function configurePackage(Package $package): void
