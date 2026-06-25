@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Dashed\DashedCore\Models\Concerns\IsVisitable;
+use Dashed\DashedCore\Models\Concerns\HasSearchIndex;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Dashed\DashedCore\Models\Concerns\HasCustomBlocks;
 use Dashed\LaravelLocalization\Facades\LaravelLocalization;
@@ -19,6 +20,7 @@ class Page extends Model
     use SoftDeletes;
     use IsVisitable;
     use HasCustomBlocks;
+    use HasSearchIndex;
 
     protected $table = 'dashed__pages';
 
