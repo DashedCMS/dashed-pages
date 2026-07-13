@@ -37,14 +37,7 @@ class Page extends Model
         'end_date' => 'datetime',
     ];
 
-    /**
-     * Let op: deze kan extra memory kosten, maar is vaak nuttig voor breadcrumbs.
-     * Als je ooit écht moet knijpen, kun je deze eventueel uitzetten en parent
-     * handmatig eager loaden in specifieke queries.
-     */
-    public $with = [
-        'parent',
-    ];
+    public $with = [];
 
     /**
      * Runtime cache voor resolveRoute resultaten per request.
