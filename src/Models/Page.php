@@ -2,6 +2,7 @@
 
 namespace Dashed\DashedPages\Models;
 
+use Dashed\DashedCore\Classes\Caching\CacheInvalidator;
 use Dashed\DashedCore\Classes\Sites;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
@@ -47,6 +48,21 @@ class Page extends Model
      * ]
      */
     protected static array $resolvedRouteCache = [];
+
+    protected static function booted(): void
+    {
+        static::saved(function (self $page) {
+            if (class_exists(CacheInvalidator::class)) {
+                CacheInvalidator::forModel($page);
+            }
+        });
+
+        static::deleted(function (self $page) {
+            if (class_exists(CacheInvalidator::class)) {
+                CacheInvalidator::forModel($page);
+            }
+        });
+    }
 
     public function parent(): BelongsTo
     {
