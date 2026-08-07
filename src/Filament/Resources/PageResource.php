@@ -66,10 +66,10 @@ class PageResource extends Resource
     {
         return $schema
             ->schema([
-                Section::make('Content')->columnSpanFull()
+                Section::make(__('Content'))->columnSpanFull()
                     ->schema(array_merge([
                         TextInput::make('name')
-                            ->label('Name')
+                            ->label(__('Name'))
                             ->required()
                             ->maxLength(255)
                             ->reactive()
@@ -80,23 +80,23 @@ class PageResource extends Resource
                                 }
                             }),
                         TextInput::make('slug')
-                            ->label('Slug')
+                            ->label(__('Slug'))
                             ->unique('dashed__pages', 'slug', fn ($record) => $record)
-                            ->helperText('Laat leeg om automatisch te laten genereren')
+                            ->helperText(__('Laat leeg om automatisch te laten genereren'))
                             ->maxLength(255),
                         cms()->getFilamentBuilderBlock(),
                     ], static::customBlocksTab('pageBlocks')))
                     ->columns(2),
-                Section::make('Globale informatie')
+                Section::make(__('Globale informatie'))
                     ->columnSpanFull()
                     ->schema(array_merge(
                         [
                             Toggle::make('is_home')
-                                ->label('Dit is de homepagina'),
+                                ->label(__('Dit is de homepagina')),
                         ],
                         static::publishTab()
                     )),
-                Section::make('Meta data')
+                Section::make(__('Meta data'))
                     ->columnSpanFull()
                     ->schema(static::metadataTab()),
             ]);
@@ -107,7 +107,7 @@ class PageResource extends Resource
         return $table
             ->columns(array_merge([
                 TextColumn::make('name')
-                    ->label('Naam')
+                    ->label(__('Naam'))
                     ->sortable()
                     ->searchable(query: SearchQuery::make()),
                 static::lastEditedColumn(),
