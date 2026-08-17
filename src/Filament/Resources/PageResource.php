@@ -5,6 +5,7 @@ namespace Dashed\DashedPages\Filament\Resources;
 use UnitEnum;
 use BackedEnum;
 use Filament\Tables\Table;
+use Dashed\DashedCore\Filament\Columns\LocaleStatusColumn;
 use Illuminate\Support\Str;
 use Filament\Schemas\Schema;
 use Filament\Actions\EditAction;
@@ -110,6 +111,7 @@ class PageResource extends Resource
                     ->label(__('Naam'))
                     ->sortable()
                     ->searchable(query: SearchQuery::make()),
+                LocaleStatusColumn::make('name'),
                 static::lastEditedColumn(),
             ], static::visitableTableColumns()))
             ->modifyQueryUsing(fn ($query) => static::modifyTableQueryForLastEdited($query))
