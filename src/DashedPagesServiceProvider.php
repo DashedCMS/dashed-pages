@@ -59,6 +59,30 @@ MARKDOWN,
                 'Pagina'
             );
         }
+
+        self::registreerVertaalbaren();
+    }
+
+    /**
+     * Pagina's aanmelden bij het vertaalstatus-overzicht.
+     *
+     * Statisch, naar het voorbeeld van registreerBewaartermijnen() in
+     * dashed-core. Guarded op class_exists: dashed-pages kent
+     * dashed-translations niet als afhankelijkheid.
+     */
+    public static function registreerVertaalbaren(): void
+    {
+        if (! class_exists(\Dashed\DashedTranslations\Classes\Translatables\TranslatableRegistry::class)) {
+            return;
+        }
+
+        \Dashed\DashedTranslations\Classes\Translatables\TranslatableRegistry::register(
+            \Dashed\DashedTranslations\Classes\Translatables\Translatable::make(\Dashed\DashedPages\Models\Page::class)
+                ->label(__('Pagina\'s'))
+                ->group(__('Inhoud'))
+                ->contentChildren()
+                ->urlVia(\Dashed\DashedPages\Filament\Resources\PageResource::class)
+        );
     }
 
     public function configurePackage(Package $package): void
