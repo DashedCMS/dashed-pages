@@ -2,6 +2,11 @@
 
 All notable changes to `dashed-pages` will be documented in this file.
 
+## v4.7.0 - 2026-09-30
+
+### Added
+- Pagina's krijgt een gewicht in de zoekpopup van het menu (`navigationSearchPriority`), zodat het bovenaan staat. Vereist dashed-core v4.76.0 voor het effect; zonder die versie doet de aanmelding niets.
+
 ## v4.1.2 - 2026-05-11
 
 ### Changed

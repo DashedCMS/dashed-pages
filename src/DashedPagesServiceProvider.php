@@ -13,6 +13,11 @@ class DashedPagesServiceProvider extends PackageServiceProvider
 
     public function bootingPackage(): void
     {
+        // Gewicht in de zoekpopup van het menu (NavigationSearch in dashed-core).
+        cms()->builder('navigationSearchPriority', [
+            \Dashed\DashedPages\Filament\Resources\PageResource::class => 75,
+        ]);
+
         Gate::policy(\Dashed\DashedPages\Models\Page::class, \Dashed\DashedPages\Policies\PagePolicy::class);
 
         cms()->registerRolePermissions('Pagina\'s', [
