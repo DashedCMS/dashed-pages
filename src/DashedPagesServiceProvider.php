@@ -101,7 +101,8 @@ MARKDOWN,
         cms()->registerRouteModel(Page::class, 'Pagina', 'Pagina\'s');
 
         $package
-            ->name('dashed-pages');
+            ->name('dashed-pages')
+            ->hasTranslations();
 
         cms()->builder('plugins', [
             new DashedPagesPlugin(),
