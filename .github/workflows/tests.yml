@@ -10,7 +10,6 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     strategy:
       fail-fast: false
       matrix:
@@ -30,10 +29,7 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        run: composer update --prefer-dist --no-interaction --no-progress
+        run: composer update --prefer-install=auto --no-interaction --no-progress
 
-      # Draait Pest via orchestra/testbench. Dat start een echte Laravel-app met
-      # de service provider van dit package erin, dus een ontbrekende klasse of
-      # een kapotte dependency valt hier om in plaats van pas op een site.
       - name: Run tests
         run: vendor/bin/pest
