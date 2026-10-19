@@ -41,13 +41,28 @@ class Page extends Model
     public $with = [];
 
     /**
-     * Runtime cache voor resolveRoute resultaten per request.
+     * Runtime cache voor resolveRoute-resultaten, per verzoek. Bewust op de
+     * request-attributen en niet als PHP-static: een static overleeft het
+     * verzoek onder Octane en de applicatie-herstart tussen twee tests, en
+     * gaf dan een Page-object van een vorig verzoek terug voor dezelfde slug.
      *
      * [
      *   'siteId|locale|slug' => Page|null|'pageNotFound'
      * ]
      */
-    protected static array $resolvedRouteCache = [];
+    protected const ROUTE_CACHE_ATTRIBUTE = 'dashed-pages.resolved-routes';
+
+    protected static function resolvedRouteCache(): array
+    {
+        return request()->attributes->get(static::ROUTE_CACHE_ATTRIBUTE, []);
+    }
+
+    protected static function rememberResolvedRoute(string $cacheKey, mixed $value): void
+    {
+        $cache = static::resolvedRouteCache();
+        $cache[$cacheKey] = $value;
+        request()->attributes->set(static::ROUTE_CACHE_ATTRIBUTE, $cache);
+    }
 
     protected static function booted(): void
     {
@@ -94,8 +109,10 @@ class Page extends Model
         $cacheKey = static::routeCacheKey($siteId, $locale, $slug);
 
         // Runtime cache per request – geen dubbele queries/work als resolveRoute 2x wordt aangeroepen.
-        if (array_key_exists($cacheKey, static::$resolvedRouteCache)) {
-            $page = static::$resolvedRouteCache[$cacheKey];
+        $resolved = static::resolvedRouteCache();
+
+        if (array_key_exists($cacheKey, $resolved)) {
+            $page = $resolved[$cacheKey];
 
             if (! $page instanceof self) {
                 // pageNotFound of null – geef het direct terug
@@ -114,12 +131,12 @@ class Page extends Model
 
         // Geen page? Cache en klaar.
         if (! $page) {
-            static::$resolvedRouteCache[$cacheKey] = null;
+            static::rememberResolvedRoute($cacheKey, null);
 
             return null;
         }
 
-        static::$resolvedRouteCache[$cacheKey] = $page;
+        static::rememberResolvedRoute($cacheKey, $page);
 
         // 2) Bouw SEO/meta + view response
         return static::buildPageResponse($page);
