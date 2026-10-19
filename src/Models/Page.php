@@ -13,7 +13,6 @@ use Dashed\DashedCore\Models\Concerns\HasSearchIndex;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Dashed\DashedCore\Models\Concerns\HasCustomBlocks;
 use Dashed\DashedCore\Classes\Caching\CacheInvalidator;
-use Dashed\LaravelLocalization\Facades\LaravelLocalization;
 
 class Page extends Model
 {
