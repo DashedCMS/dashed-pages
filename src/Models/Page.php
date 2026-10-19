@@ -178,10 +178,6 @@ class Page extends Model
             seo()->metaData('metaImage', $page->metadata->image);
         }
 
-        // Alternate URLs – geef dit eventueel een cache als het zwaar voelt.
-        $alternateUrls = static::buildAlternateUrls($page);
-        seo()->metaData('alternateUrls', $alternateUrls);
-
         // Shared view data
         View::share('page', $page);
         View::share('model', $page);
@@ -189,41 +185,6 @@ class Page extends Model
         View::share('breadcrumbs', $page->breadcrumbs());
 
         return view(config('dashed-core.site_theme', 'dashed') . '.pages.show');
-    }
-
-    /**
-     * Bouwt alternate URLs voor alle locales.
-     *
-     * Dit kun je, als nodig, ook nog in Cache::remember() wikkelen op basis van page-id + site-id.
-     */
-    protected static function buildAlternateUrls(self $page): array
-    {
-        $correctLocale = app()->getLocale();
-        $alternateUrls = [];
-
-        // Als deze call duur is, kun je hier een Cache::remember omheen zetten:
-        // Cache::remember("page_alt_urls_{$page->id}_{$siteId}", 3600, fn () => ...);
-        foreach (Sites::getLocales() as $locale) {
-            $localeId = $locale['id'] ?? null;
-
-            if (! $localeId || $localeId === $correctLocale) {
-                continue;
-            }
-
-            // LaravelLocalization heeft meestal een helper om de juiste URL voor een andere locale te krijgen
-            // zonder global state te moeten switchen, maar omdat jouw code dat nu al doet,
-            // houden we dat gedrag in stand, alleen netjes ingepakt.
-            LaravelLocalization::setLocale($localeId);
-            app()->setLocale($localeId);
-
-            $alternateUrls[$localeId] = $page->getUrl();
-        }
-
-        // Locale terugzetten
-        LaravelLocalization::setLocale($correctLocale);
-        app()->setLocale($correctLocale);
-
-        return $alternateUrls;
     }
 
     protected static function routeCacheKey(string $siteId, string $locale, string $slug): string
